@@ -2,6 +2,7 @@ import $ from 'jquery';
 import 'select2';
 import 'daterangepicker';
 import 'bootstrap';
+const axios = require('axios').default;
 
 window.$ = window.jQuery = $;
 window.$ = require('jquery');
@@ -20,6 +21,9 @@ $(document).ready(function () {
         language: "ru",
       });
     })
+    $('.forlink').on("click",function(){
+      window.location.href=$(this).prop("href");
+    });
   
     $('.daterange').on('apply.daterangepicker', function(ev, picker) {
       $('input[name="'+$(this).data("field")+'"]').val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'))
@@ -78,6 +82,27 @@ $(document).ready(function () {
       $('input[name="sort_field"]').val($(this).data('filter'));
       $('#search').trigger("submit");
       return false;
+    })
+
+    $(".collapse").on('show.bs.collapse', function () {
+      // console.log ($(this).data("id"));
+      var id=$(this).data("id");
+      axios.post('/pacientone', {
+          user_id: id
+      })
+      .then(function (response) {
+        let data=response.data.data;
+        console.log(data);
+        $(`#accordion${id} td`).html(JSON.stringify(data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });  
+    
+
     })
   });
   

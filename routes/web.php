@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/vacines/del/{id}', [VacinesConroller::class, 'DeleteVacine'])->name('DeleteVacine');
     Route::get('/staciionars/del/{id}', [StacionarController::class, 'DeleteStacionar'])->name('DeleteStacionar');
     Route::get('/pacient', [PacientsController::class, 'PacientsPage'])->name('PacientsPage');
+    Route::post('/pacientone', [PacientsController::class, 'Sved']);
 });
 
 Route::post('pacient/sort_by_lastname', [PacientsController::class, 'PacientsSortByLastnamme'])->name('PacientsSortByLastnamme');

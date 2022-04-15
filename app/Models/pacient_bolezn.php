@@ -12,6 +12,8 @@ class pacient_bolezn extends Model
     protected $fillable = [
       'pacients_id',
       'bolezn_id',
+      'date_in',
+      'date_ou',
     ];
 
     public function bolezns(){
@@ -20,5 +22,8 @@ class pacient_bolezn extends Model
 
     public function descr(){
       return $this->hasOne(bolezn::class);
+    }
+    public function descr1(){
+      return $this->belongsTo(bolezn::class,"bolezn_id","id");
     }
 }

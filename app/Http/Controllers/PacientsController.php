@@ -11,11 +11,18 @@ use App\Models\roddom;
 use App\Models\uchastok;
 
 use App\Http\Requests\PacientRequest;
-
 use App\Models\pacients;
+use App\Http\Resources\GetForUserResource;
 
 class PacientsController extends Controller
 {
+  public function Sved(Request $request){
+    $pacient = new GetForUserResource(pacients::with('bolezns','stacionars','vacine')->find($request->user_id));
+    if($pacient){
+      return $pacient;
+      
+    }
+  }
   public function PacientsPage(Request $request)
   {
 
@@ -24,12 +31,14 @@ class PacientsController extends Controller
     $date_add = isset($request->date_add) ?  explode(' - ', $request->date_add) : '';
     $birthday = isset($request->birthday) ?  explode(' - ', $request->birthday) : '';
     $uchastok_id = $request->uchastok_id??'';
-
+    $roddom_id = $request->roddom_id??'';
+    $pol = $request->pol??"";
+    
     $roddoms = roddom::all();
     $uchastoks = uchastok::all();
     $check = isset($request->sort_field) ?  explode('|', $request->sort_field) : ['id', 'asc'];
     $pacients1 = pacients::with(['roddom', 'uchastok'])
-    ->where(function ($query) use ($date_add,$birthday,$search,$uchastok_id) {
+    ->where(function ($query) use ($date_add,$birthday,$search,$uchastok_id,$roddom_id,$pol) {
       if ($search){
         $query->where('lastname', 'LIKE', '%' . $search . '%');
         $query->orWhere('pname', 'LIKE', '%' . $search . '%');
@@ -43,6 +52,12 @@ class PacientsController extends Controller
       }
       if ($uchastok_id) {
         $query->where('uchastok_id', $uchastok_id);
+      }
+      if ($roddom_id) {
+        $query->where('roddom_id', $roddom_id);
+      }
+      if ($pol) {
+        $query->where('pol', $pol==2?0:1);
       }
     })
       ->orderBy($check[0], $check[1])
