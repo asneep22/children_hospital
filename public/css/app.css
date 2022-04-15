@@ -1,0 +1,13 @@
+body .select2-container--default .select2-selection--multiple .select2-selection__choice{
+    display: block;
+}
+
+.modal{
+  overflow: hidden;
+}
+
+.sort_btn{
+margin: auto;
+font-size: .85em;
+padding: .25em;
+}
