@@ -12,13 +12,20 @@ class pacient_bolezn extends Model
     protected $fillable = [
       'pacients_id',
       'bolezn_id',
+      'date_in',
+      'date_ou',
     ];
+
+    protected $casts = [
+      'date_in' => 'date:d/m/Y',
+      'date_ou' => 'date:d/m/Y',
+  ];
 
     public function bolezns(){
       return $this->belongsTo(pacients::class);
     }
 
     public function descr(){
-      return $this->hasOne(bolezn::class);
+      return $this->belongsTo(bolezn::class, 'bolezn_id');
     }
 }

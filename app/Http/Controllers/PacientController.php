@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PacientBoleznReq;
 use PDO;
 
 use App\Models\vacines;
@@ -68,58 +69,87 @@ class PacientController extends Controller
       }
     }
 
-      pacient_bolezn::where('pacients_id', $id)->delete();
-
-      if ($req->bolezn){
-        foreach ($req->bolezn as $elem) {
-          if ($elem) {
-            $elem = ucfirst(mb_strtolower(trim($elem)));
-            $find_bolezn = bolezn::where('pname', $elem)->first();
-            if (!$find_bolezn) {
-              $find_bolezn = bolezn::create(['pname' => $elem]);
-            }
-            pacient_bolezn::create([
-              'pacients_id' => $id,
-              'bolezn_id' => $find_bolezn->id,
-            ]);
-          }
-        }
-      }
-
-      pacients::find($id)->update($req->all());
+    pacients::find($id)->update($req->all());
 
     flash('Данные о пациенте сохранены')->success();
     return redirect()->back();
   }
 
-  public function addPacientToStacionar(PacientStacionarRequest $req, $id){
+  public function AddBoleznToPacient(PacientBoleznReq $req, $id){
+    $elem = ucfirst(mb_strtolower(trim($req['bolezn_id'])));
 
-    if($stacionar = stacionar::firstOrCreate(
-      ['id' => $req['stacionar_id']],
-      ['pname' => $req['stacionar_id']]
-    )){
-      $req['stacionar_id'] = $stacionar->id;
+    if($bolezn = bolezn::firstOrCreate(
+      ['id' => $req['bolezn_id']],
+      ['pname' => $elem]
+      ))
+
+      $req['pacients_id'] = $id;
+      $req['bolezn_id'] = $bolezn->id;
+      if (!$req['date_ou']){
+        $req['date_ou'] = Carbon::create(2011,0,0);
+      }
+
+        pacient_bolezn::create($req->all());
+        flash('Болезнь добавлена')->success();
+        return redirect()->back();
     }
-    $req['pacients_id'] = $id;
-    if (!$req['date_ou']){
-    $req['date_ou'] = Carbon::create(2011,0,0);
-  }
 
-    pacient_stacionar::create($req->all());
-    flash('Пациент добавлен в стационар')->success();
-    return redirect()->back();
-  }
+    public function updatePacientBolezn(PacientBoleznReq $req, $id){
+    $elem = ucfirst(mb_strtolower(trim($req['bolezn_id'])));
 
-  public function updatePacientStacionar(PacientStacionarRequest $req, $id){
-    $req['pacient_id'] = session()->get('pacient_id');
-    pacient_stacionar::find($id)->update($req->except('pacients_id'));
-    flash('Запись стационара пациента обновлена')->success();
-    return redirect()->back();
-  }
+      if($bolezn = bolezn::firstOrCreate(
+        ['id' => $req['bolezn_id']],
+        ['pname' => $elem]
+      )){  $req["bolezn_id"] = $bolezn->id;  }
 
-  public function deletePacientStacionar($id){
+      $req['pacient_id'] = session()->get('pacient_id');
+      pacient_bolezn::find($id)->update($req->except('pacients_id'));
+      flash('Запись болезни пациента обновлена')->success();
+      return redirect()->back();
+    }
+
+    public function deletePacientBolezn($id){
+      pacient_bolezn::find($id)->delete();
+      flash('Запись болезни пациента удалена')->success();
+      return redirect()->back();
+    }
+
+    public function addPacientToStacionar(PacientStacionarRequest $req, $id){
+
+      if($stacionar = stacionar::firstOrCreate(
+        ['id' => $req['stacionar_id']],
+        ['pname' => $req['stacionar_id']]
+      )){
+        $req['stacionar_id'] = $stacionar->id;
+      }
+      $req['pacients_id'] = $id;
+      if (!$req['date_ou']){
+        $req['date_ou'] = Carbon::create(2011,0,0);
+      }
+
+      pacient_stacionar::create($req->all());
+      flash('Пациент добавлен в стационар')->success();
+      return redirect()->back();
+    }
+
+
+    public function updatePacientStacionar(PacientStacionarRequest $req, $id){
+      if($stacionar = stacionar::firstOrCreate(
+        ['id' => $req['stacionar_id']],
+        ['pname' => $req['stacionar_id']]
+      )){
+        $req['stacionar_id'] = $stacionar->id;
+      }
+
+      $req['pacient_id'] = session()->get('pacient_id');
+      pacient_stacionar::find($id)->update($req->except('pacients_id'));
+      flash('Запись стационара пациента обновлена')->success();
+      return redirect()->back();
+    }
+
+    public function deletePacientStacionar($id){
       pacient_stacionar::find($id)->delete();
       flash('Запись стационара пациента удалена')->success();
       return redirect()->back();
+    }
   }
-}

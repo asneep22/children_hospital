@@ -164,7 +164,7 @@
             <select class="form-select form-select-sm selectform" data-field="uchastok_id">
               <option value="">Выберите участок</option>
                       @foreach($uchastoks as $uchastok)
-                      <option value="{{$uchastok->id}}" {{ $_GET['uchastok_id'] == $uchastok->id?'selected':''}}>{{$uchastok->pname}}</option>
+                      <option value="{{$uchastok->id}}" {{isset($_GET['uchastok_id']) ? ($_GET['uchastok_id'] == $uchastok->id?'selected':''):''}}>{{$uchastok->pname}}</option>
                       @endforeach
                     </select>
             </th>
