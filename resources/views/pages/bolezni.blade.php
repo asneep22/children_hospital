@@ -38,7 +38,7 @@
                   </form>
                 </x-modal>
                 <x-modal modalId="deleteBol{{$bolezn->id}}" modalTitle="Удалить" btnClass="btn-danger py-1" btnText="X">
-                  <p class="text-center">Вы действительно хотитие удалить запись болезни: "<b>{{$bolezn->pname}}</b>?"</p>
+                  <p class="text-center">Вы действительно хотите удалить запись болезни: "<b>{{$bolezn->pname}}</b>?"</p>
                   <div class="modal-footer p-0 mt-2">
                     <a href="{{Route('DeleteBolezn', $bolezn->id)}}" class="btn btn-danger">Удалить</a>
                     <button type="button" class="btn btn-secondary m-0" data-bs-dismiss="modal">Закрыть</button>

@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UchastokReq;
-
 use App\Models\uchastok;
 
 class UchastokController extends Controller
 {
   public function UchastkiPage(){
     $uchastki = uchastok::paginate(20);
+  //  return datatables()->of(uchastok::all())->toJson();
+  
     return view('pages.uchastki', ['uchastki' => $uchastki]);
   }
 

@@ -9,7 +9,7 @@ use App\Http\Controllers\VacinesConroller;
 use App\Http\Controllers\BolezniController;
 use App\Http\Controllers\StacionarController;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\DataController;
 use App\Filters\pacientsFilter;
 use GuzzleHttp\Middleware;
 
@@ -31,6 +31,7 @@ Route::get('/logout', [AuthController::class, 'Logout'])->name('Logout');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/uchastki', [UchastokController::class, 'UchastkiPage'])->name('UchastkiPage');
+    Route::get('/uchastki1',[DataController::class, 'uchastki']);
     Route::get('/stacionars', [StacionarController::class, 'StacionarsPage'])->name('StacionarsPage');
     Route::get('/roddoms', [RoddomController::class, 'RoddomsPage'])->name('RoddomsPage');
     Route::get('/vacines', [VacinesConroller::class, 'VacinesPage'])->name('VacinesPage');

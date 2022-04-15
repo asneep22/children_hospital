@@ -129,7 +129,7 @@
           <div class="form-check">
             <input type="hidden" name="gruppasvs" value="0">
             <input class="form-check-input" type="checkbox" name="gruppasvs" value="1" id="gruppasvs" {{$pacient->gruppasvs == 1 ? 'checked':''}}>
-            <label class="form-check-label" for="svs">СВС</label>
+            <label class="form-check-label" for="gruppasvs">СВС</label>
           </div>
           <hr class="mt-2">
 

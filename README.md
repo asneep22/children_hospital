@@ -1,3 +1,17 @@
+<p>1. npm i</p>
+<p>2. composer install</p>
+<p>3. "npm run dev" - build css/js</p>
+<h3>
+other command for generate css/js</h3>
+"dev": "npm run development",
+"development": "mix",
+"watch": "mix watch",
+"watch-poll": "mix watch -- --watch-options-poll=1000",
+"hot": "mix watch --hot",
+"prod": "npm run production",
+"production": "mix --production"
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">

@@ -61,7 +61,7 @@
 
                   <div class="mb-3">
                     <label for="date_add">Дата поступления</label>
-                    <input type="text" name="date_add">
+                    <input type="date" name="date_add" class="form-control">
                   </div>
 
                   <div class="mb-3">

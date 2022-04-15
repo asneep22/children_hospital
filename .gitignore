@@ -15,6 +15,10 @@ public/hot
 public_html/storage
 public_html/hot
 
+#my var
+public/css/app.css
+public/js/app.js
+
 storage/*.key
 .env
 Homestead.yaml
