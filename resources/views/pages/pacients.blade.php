@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container-fluid">
-  <div class="d-flex flex-column m-auto justify-content-end">
+  <div class="row">
     <div class="table-responsive">
       <table class="table table-sm table-hover table-bordered">
         <thead class="align-start">
@@ -79,76 +79,102 @@
               </x-modal>
             </th>
 
-            <form action="{{Route('PacientsPage')}}" method="get" id="daterange">
-              <th colspan="5">
-                <input type="hidden" name="sort_field" value="">
-                <input type="text" name="daterange" class="form-control" placeholder="Период" value="{{$_GET['daterange']??''}}" />
-              </th>
 
-              <th colspan="2">
-                <div class="btn-group w-100">
-                  <input type="search" placeholder="Поиск" class="form-control" name="search" value="{{isset($_GET['search']) ? $_GET['search']:''}}">
-                  <button type="submit" class="btn btn-success">Найти</button>
-                </div>
-              </th>
-              <th colspan="">
-              </th>
-            </form>
           </tr>
 
           <tr class="">
             <th scope="col">
-              <button data-filter="id|{{$check[0] == 'id' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">ID</button>
+              <a data-filter="id|{{$check[0] == 'id' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">ID</a>
             </th>
             <th scope="col">
 
-              <button data-filter="lastname|{{$check[0] == 'lastname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Фамилия</button>
-
-            </th>
-            <th scope="col">
-
-              <button data-filter="pname|{{$check[0] == 'pname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Имя</button>
+              <a data-filter="lastname|{{$check[0] == 'lastname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Фамилия</a>
 
             </th>
             <th scope="col">
 
-              <button data-filter="surname|{{$check[0] == 'surname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Отчество</button>
+              <a data-filter="pname|{{$check[0] == 'pname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Имя</a>
 
             </th>
             <th scope="col">
 
-              <button data-filter="birthday|{{$check[0] == 'birthday' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Дата рождения</button>
-
-            </th>
-            <th scope="col">
-              <button class="btn-white w-100 btn">Участок</button>
-            </th>
-            <th scope="col">
-              <button class="btn-white w-100 btn">Роддом</button>
-            </th>
-            <th scope="col">
-
-              <button name="sort_field" data-filter="rost|{{$check[0] == 'rost' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Рост</button>
+              <a data-filter="surname|{{$check[0] == 'surname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Отчество</a>
 
             </th>
             <th scope="col">
 
-              <button  data-filter="ves|{{$check[0] == 'ves' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Вес</button>
+              <a data-filter="birthday|{{$check[0] == 'birthday' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Дата рождения</a>
+
+            </th>
+            <th scope="col">
+              <a class="btn-white w-100 btn">Участок</a>
+            </th>
+            <th scope="col">
+              <a class="btn-white w-100 btn">Роддом</a>
+            </th>
+            <th scope="col">
+
+              <a data-filter="rost|{{$check[0] == 'rost' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Рост</a>
 
             </th>
             <th scope="col">
 
-              <button data-filter="gestaci|{{$check[0] == 'gestaci' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Неделя рождения</button>
+              <a data-filter="ves|{{$check[0] == 'ves' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Вес</a>
 
             </th>
             <th scope="col">
 
-              <button type="submit" data-filter="date_add|{{$check[0] == 'date_add' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Дата поступления</button>
+              <a data-filter="pol|{{$check[0] == 'pol' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Пол</a>
+
+            </th>
+            <th scope="col">
+
+              <a data-filter="gestaci|{{$check[0] == 'gestaci' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Неделя рождения</a>
+
+            </th>
+            <th scope="col">
+
+              <a type="submit" data-filter="date_add|{{$check[0] == 'date_add' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Дата поступления</a>
+
 
             </th>
             <th scope="col">
               <button class="btn-white w-100 btn">Рекомендации</button>
             </th>
+          </tr>
+          <tr>
+            <th></th>
+            <th colspan="3">
+              <form action="{{Route('PacientsPage')}}" id="search" method="get">
+
+                <div class="btn-group w-100">
+                  <input type="search" placeholder="Поиск" class="form-control form-control-sm" name="search" value="{{isset($_GET['search']) ? $_GET['search']:''}}">
+                  <input type="hidden" name="sort_field" value="{{isset($_GET['sort_field']) ? $_GET['sort_field']:''}}">
+                  <input type="hidden" name="date_add" value="{{isset($_GET['date_add']) ? $_GET['date_add']:''}}">
+                  <input type="hidden" name="birthday" value="{{isset($_GET['birthday']) ? $_GET['birthday']:''}}">
+                  <input type="hidden" name="uchastok_id" value="{{isset($_GET['uchastok_id']) ? $_GET['uchastok_id']:''}}">
+                  <button type="submit" class="btn btn-sm btn-success">Найти</button>
+                </div>
+              </form>
+            </th>
+            <th>
+            <input type="text" class="form-control form-control-sm daterange" data-field="birthday" placeholder="Дата рождения" value="{{isset($_GET['birthday']) ? $_GET['birthday']:''}}" />
+            </th>
+            <th>
+            <select class="form-select form-select-sm selectform" data-field="uchastok_id">
+              <option value="">Выберите участок</option>
+                      @foreach($uchastoks as $uchastok)
+                      <option value="{{$uchastok->id}}" {{ $_GET['uchastok_id'] == $uchastok->id?'selected':''}}>{{$uchastok->pname}}</option>
+                      @endforeach
+                    </select>
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th><input type="text" class="form-control form-control-sm daterange" data-field="date_add" placeholder="Период" value="{{isset($_GET['date_add']) ? $_GET['date_add']:''}}" /></th>
+            <th></th>
           </tr>
         </thead>
         <tbody class="align-middle">
@@ -164,6 +190,7 @@
             <td>{{$pacient->roddom->pname}}</td>
             <td>{{$pacient->rost}}</td>
             <td>{{$pacient->ves}}</td>
+            <td>{{$pacient->pol}}</td>
             <td>{{$pacient->gestaci}}</td>
             <td>{{$pacient->date_add->format('d.m.Y')}}</td>
             <td>{{$pacient->recommend}}</td>
@@ -173,8 +200,9 @@
         </tbody>
       </table>
     </div>
-    {{$pacients1->withQueryString()->links()}}
   </div>
+  {{$pacients1->withQueryString()->links()}}
+
 </div>
 
 @endsection

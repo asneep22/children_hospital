@@ -21,18 +21,20 @@ $(document).ready(function () {
       });
     })
   
-    $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'));
-      $('#daterange').trigger("submit");
-      
+    $('.daterange').on('apply.daterangepicker', function(ev, picker) {
+      $('input[name="'+$(this).data("field")+'"]').val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'))
+      $('#search').trigger("submit");
+    });
+    $('.daterange').on('cancel.daterangepicker', function() {
+      $('input[name="'+$(this).data("field")+'"]').val('');
+      $('#search').trigger("submit");
+    });
+    $('.selectform').on("change",function(){
+        $('input[name="'+$(this).data("field")+'"]').val($(this).val());
+      $('#search').trigger("submit");
     });
   
-    $('input[name="daterange"]').on('cancel.daterangepicker', function() {
-      $('input[name="daterange"]').val('');
-      $('#daterange').trigger("submit");
-    });
-  
-    $('input[name="daterange"]').daterangepicker({
+    $('.daterange').daterangepicker({
         "locale": {
             "format": "DD.MM.YYYY",
             "separator": " - ",
@@ -68,15 +70,14 @@ $(document).ready(function () {
             "firstDay": 1
         },
       opens: 'left',
-      locale: {
-        format: 'YYYY'
-      },
       autoUpdateInput: false,
     });
   
-    $('.filter').click(function(){
+    $('.filter').on("click",function(){
+        
       $('input[name="sort_field"]').val($(this).data('filter'));
-      $('#daterange').trigger("submit");
+      $('#search').trigger("submit");
+      return false;
     })
   });
   

@@ -21,21 +21,28 @@ class PacientsController extends Controller
 
     $search = $request->search ?? '';
 
-    $range = isset($request->daterange) ?  explode(' - ', $request->daterange) : '';
+    $date_add = isset($request->date_add) ?  explode(' - ', $request->date_add) : '';
+    $birthday = isset($request->birthday) ?  explode(' - ', $request->birthday) : '';
+    $uchastok_id = $request->uchastok_id??'';
 
     $roddoms = roddom::all();
     $uchastoks = uchastok::all();
     $check = isset($request->sort_field) ?  explode('|', $request->sort_field) : ['id', 'asc'];
     $pacients1 = pacients::with(['roddom', 'uchastok'])
-    ->where(function ($query) use ($search) {
+    ->where(function ($query) use ($date_add,$birthday,$search,$uchastok_id) {
       if ($search){
-      $query->where('lastname', 'LIKE', '%' . $search . '%');
-      $query->orWhere('pname', 'LIKE', '%' . $search . '%');
-      $query->orWhere('surname', 'LIKE', '%' . $search . '%');
+        $query->where('lastname', 'LIKE', '%' . $search . '%');
+        $query->orWhere('pname', 'LIKE', '%' . $search . '%');
+        $query->orWhere('surname', 'LIKE', '%' . $search . '%');
+        }
+      if ($date_add) {
+        $query->whereBetween('date_add', [date('Y-m-d', strtotime($date_add[0])), date('Y-m-d', strtotime($date_add[1]))]);
       }
-    })->where(function ($query) use ($range) {
-      if ($range) {
-        $query->whereBetween('date_add', [date('Y-m-d', strtotime($range[0])), date('Y-m-d', strtotime($range[1]))]);
+      if ($birthday) {
+        $query->whereBetween('birthday', [date('Y-m-d', strtotime($birthday[0])), date('Y-m-d', strtotime($birthday[1]))]);
+      }
+      if ($uchastok_id) {
+        $query->where('uchastok_id', $uchastok_id);
       }
     })
       ->orderBy($check[0], $check[1])

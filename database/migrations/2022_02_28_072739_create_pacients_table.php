@@ -22,7 +22,7 @@ return new class extends Migration
       $table->foreignId('uchastok_id')->constrained('uchastoks')->onDelete('cascade')->onUpdate('cascade');
       $table->integer('rost');
       $table->float('ves');
-      $table->boolean('pol')->nullable();
+      $table->boolean('pol')->default(false);
       $table->integer('gestaci');
       $table->foreignId('roddom_id')->constrained('roddoms')->onDelete('cascade')->onUpdate('cascade');
       $table->boolean('skrinning')->nullable();
