@@ -143,7 +143,7 @@
             </th>
             <th scope="col">
 
-              <button type="submit" data-filter="gestaci|{{$check[0] == 'gestaci' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Дата поступления</button>
+              <button type="submit" data-filter="date_add|{{$check[0] == 'date_add' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter btn-white w-100 btn">Дата поступления</button>
 
             </th>
             <th scope="col">
