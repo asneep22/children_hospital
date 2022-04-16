@@ -8,8 +8,16 @@ window.$ = window.jQuery = $;
 window.$ = require('jquery');
 $(document).ready(function () {
 
-    $('.js-select').select2({
+  $('.js-select').select2({
+    tags: true,
+    language: "ru",
+    dropdownParent: document.body,
+  });
+
+  $('.modal').on('shown.bs.modal', function () {
+    $(this).find('.js-select').select2({
       tags: true,
+      dropdownParent: $(this).find('.modal-content'),
       language: "ru",
       dropdownParent: document.body,
     });
@@ -105,4 +113,64 @@ $(document).ready(function () {
 
     })
   });
-  
+  $('.selectform').on("change",function(){
+    $('input[name="'+$(this).data("field")+'"]').val($(this).val());
+    $('#search').trigger("submit");
+  });
+
+  $('.daterange').daterangepicker({
+    "locale": {
+      "format": "DD.MM.YYYY",
+      "separator": " - ",
+      "applyLabel": "Применить",
+      "cancelLabel": "Отмена",
+      "fromLabel": "От",
+      "toLabel": "До",
+      "customRangeLabel": "-",
+      "weekLabel": "W",
+      "daysOfWeek": [
+        "Вс",
+        "Пн",
+        "Вт",
+        "Сп",
+        "Чт",
+        "Пт",
+        "Сб"
+      ],
+      "monthNames": [
+        "Январь",
+        "Февраль",
+        "Март",
+        "Апрель",
+        "Май",
+        "Июнь",
+        "Июль",
+        "Август",
+        "Сентябрь",
+        "Октябрь",
+        "Ноябрь",
+        "Декабрь"
+      ],
+      "firstDay": 1
+    },
+    opens: 'left',
+    autoUpdateInput: false,
+  });
+
+  $('.filter').on("click",function(){
+
+    $('input[name="sort_field"]').val($(this).data('filter'));
+    $('#search').trigger("submit");
+    return false;
+  });
+
+  $('.switch_tables_btn').on("click", function(){
+    let all = $(".switch_tables_btn").map(function() {
+      return this.name;
+    }).get();
+    all.forEach((item, i) => {
+      $('#' + item).hide();
+    });
+    $('#' + this.name).toggle();
+  })
+});

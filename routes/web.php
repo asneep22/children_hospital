@@ -57,16 +57,20 @@ Route::post('/bolezni/add', [BolezniController::class, 'AddBolezn'])->name('AddB
 Route::post('/vacines/add', [VacinesConroller::class, 'AddVacine'])->name('AddVacine');
 Route::post('/staciionars/add', [StacionarController::class, 'AddStacionar'])->name('AddStacionar');
 
-Route::post('/pacients/upd/{id}', [PacientsController::class, 'UpdatePacient'])->name('UpdatePacient')->middleware('availability');
+
 Route::post('/uchastki/upd/{id}', [UchastokController::class, 'UpdateUchastok'])->name('UpdateUchastok');
 Route::post('/roddoms/upd/{id}', [RoddomController::class, 'UpdateRoddom'])->name('UpdateRoddom');
 Route::post('/bolezni/upd/{id}', [BolezniController::class, 'UpdateBolezn'])->name('UpdateBolezn');
 Route::post('/vacines/upd/{id}', [VacinesConroller::class, 'UpdateVacine'])->name('UpdateVacine');
 Route::post('/staciionars/upd/{id}', [StacionarController::class, 'UpdateStacionar'])->name('UpdateStacionar');
 
-
-
-Route::post('/pacient/{id}/saveAll', [PacientController::class, 'saveAll'])->name('saveAll')->middleware('availability');
-Route::post('/pacient/{id}/addPacientToStacionar', [PacientController::class, 'addPacientToStacionar'])->name('addPacientToStacionar')->middleware('availability');;
-Route::post('/updatePacientStacionar/{id}', [PacientController::class, 'updatePacientStacionar'])->name('updatePacientStacionar')->middleware('availability');;
-Route::get('/deletePacientStacionar/{id}', [PacientController::class, 'deletePacientStacionar'])->name('deletePacientStacionar')->middleware('availability');;
+Route::group(['middleware' => 'availability'], function () {
+  Route::post('/pacients/upd/{id}', [PacientsController::class, 'UpdatePacient'])->name('UpdatePacient');
+  Route::post('/pacient/{id}/saveAll', [PacientController::class, 'saveAll'])->name('saveAll');
+  Route::post('/pacient/{id}/addPacientToStacionar', [PacientController::class, 'addPacientToStacionar'])->name('addPacientToStacionar');
+  Route::post('/updatePacientStacionar/{id}', [PacientController::class, 'updatePacientStacionar'])->name('updatePacientStacionar');
+  Route::get('/deletePacientStacionar/{id}', [PacientController::class, 'deletePacientStacionar'])->name('deletePacientStacionar');
+  Route::post('/pacient/{id}/addBoleznToPacient', [PacientController::class, 'addBoleznToPacient'])->name('addBoleznToPacient');
+  Route::post('/updatePacientBolezn/{id}', [PacientController::class, 'updatePacientBolezn'])->name('updatePacientBolezn');
+  Route::get('/deletePacientBolezn/{id}', [PacientController::class, 'deletePacientBolezn'])->name('deletePacientBolezn');
+});

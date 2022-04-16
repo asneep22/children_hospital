@@ -16,12 +16,17 @@ class pacient_bolezn extends Model
       'date_ou',
     ];
 
+    protected $casts = [
+      'date_in' => 'date:d/m/Y',
+      'date_ou' => 'date:d/m/Y',
+  ];
+
     public function bolezns(){
       return $this->belongsTo(pacients::class);
     }
 
     public function descr(){
-      return $this->hasOne(bolezn::class);
+      return $this->belongsTo(bolezn::class, 'bolezn_id');
     }
     public function descr1(){
       return $this->belongsTo(bolezn::class,"bolezn_id","id");

@@ -10,10 +10,10 @@ class bolezn extends Model
     use HasFactory;
 
     protected $fillable = [
-      'pname'
+      'pname',
     ];
 
-    public function pacients(){
-      return $this->belongsTo(pacient_bolezn::class);
+    public function bolezn(){
+      return $this->hasMany(pacient_bolezn::class);
     }
 }
