@@ -9,17 +9,17 @@ use Illuminate\Http\Request;
 
 use App\Models\roddom;
 use App\Models\uchastok;
-
 use App\Http\Requests\PacientRequest;
 use App\Models\pacients;
 use App\Http\Resources\GetForUserResource;
 
 class PacientsController extends Controller
 {
-  public function Sved(Request $request){
-    $pacient = new GetForUserResource(pacients::with('bolezns','stacionars','vacine')->find($request->user_id));
+  public function sved($id){
+    $pacient = new GetForUserResource(pacients::with('bolezns','stacionars','vacine')->find($id));
     if($pacient){
-      return $pacient;
+      //  return $pacient;
+      return view('components.pacientone')->with('pacient',$pacient->resolve());
       
     }
   }

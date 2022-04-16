@@ -28,7 +28,8 @@ $(document).ready(function () {
         dropdownParent: $(this).find('.modal-content'),
         language: "ru",
       });
-    })
+    });
+  });
     $('.forlink').on("click",function(){
       window.location.href=$(this).prop("href");
     });
@@ -93,15 +94,14 @@ $(document).ready(function () {
     })
 
     $(".collapse").on('show.bs.collapse', function () {
-      // console.log ($(this).data("id"));
+      
+      console.log ($(this).data("id"));
       var id=$(this).data("id");
-      axios.post('/pacientone', {
-          user_id: id
-      })
+      axios.get(`/pacientone/${id}`)
       .then(function (response) {
-        let data=response.data.data;
-        console.log(data);
-        $(`#accordion${id} td`).html(JSON.stringify(data));
+        // let data=response.data.data;
+        console.log(response);
+        $(`#accordion${id} td`).html(JSON.stringify(response));
       })
       .catch(function (error) {
         console.log(error);
@@ -112,7 +112,7 @@ $(document).ready(function () {
     
 
     })
-  });
+  
   $('.selectform').on("change",function(){
     $('input[name="'+$(this).data("field")+'"]').val($(this).val());
     $('#search').trigger("submit");

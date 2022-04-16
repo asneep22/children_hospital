@@ -13,14 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
+        //это будет как период болезни теперь....
         Schema::create('pacient_stacionars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pacients_id')->constrained('pacients')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('stacionar_id')->constrained('stacionars')->onDelete('cascade')->onUpdate('cascade');
-            $table->date('date_in');
+            $table->enum("vid",["inhome","roddom","stacionar"])->default("inhome");
+            $table->foreignId('stacionar_id')->nullable()->constrained('stacionars')->onDelete('cascade')->onUpdate('cascade');
+            $table->date('date_in')->nullable();
             $table->date('date_ou')->nullable();
-            $table->string('diagnoz');
-            $table->boolean('inhome')->nullable();
+            $table->string('recommend')->nullable();//new
+            // $table->string('diagnoz'); убираем. меняется структура.....
+            // $table->boolean('inhome')->nullable();
             $table->timestamps();
         });
     }

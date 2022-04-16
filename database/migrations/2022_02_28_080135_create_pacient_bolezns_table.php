@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('pacient_bolezns', function (Blueprint $table) {
             $table->id();
-            $table->date("date_in")->nullable();
-            $table->date("date_ou")->nullable();
-            $table->foreignId('pacients_id')->constrained('pacients')->onDelete('cascade')->onUpdate('cascade');;
+            // $table->date("date_in")->nullable();
+            // $table->date("date_ou")->nullable();
+            // $table->foreignId('pacients_id')->constrained('pacients')->onDelete('cascade')->onUpdate('cascade');;
+            $table->foreignId('stacionar_id')->constrained('stacionars')->onDelete('cascade')->onUpdate('cascade');;
             $table->foreignId('bolezn_id')->constrained('bolezns')->onDelete('cascade')->onUpdate('cascade');;
             $table->timestamps();
         });

@@ -11,11 +11,11 @@ class pacient_stacionar extends Model
 
   protected $fillable = [
     'pacients_id',
+    'vid',
     'stacionar_id',
     'date_in',
     'date_ou',
-    'diagnoz',
-    'inhome',
+    'recommend'
   ];
 
   protected $casts = [
@@ -29,5 +29,8 @@ class pacient_stacionar extends Model
 
   public function stacionar(){
       return $this->belongsTo(stacionar::class, 'stacionar_id');
+  }
+  public function bolezns(){
+    return $this->hasMany(pacient_bolezn::class);
   }
 }

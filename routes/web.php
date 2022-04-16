@@ -27,7 +27,7 @@ use GuzzleHttp\Middleware;
 Route::get('/', [AuthController::class, 'AuthPage'])->name('AuthPage');
 Route::post('/tryAutorization', [AuthController::class, 'TryAuth'])->name('TryAuth');
 Route::get('/logout', [AuthController::class, 'Logout'])->name('Logout');
-
+Route::get('/pacientone/{id}', [PacientsController::class, 'sved'])->name('sved');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/uchastki', [UchastokController::class, 'UchastkiPage'])->name('UchastkiPage');
@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/vacines/del/{id}', [VacinesConroller::class, 'DeleteVacine'])->name('DeleteVacine');
     Route::get('/staciionars/del/{id}', [StacionarController::class, 'DeleteStacionar'])->name('DeleteStacionar');
     Route::get('/pacient', [PacientsController::class, 'PacientsPage'])->name('PacientsPage');
-    Route::post('/pacientone', [PacientsController::class, 'Sved']);
+    
 });
 
 Route::post('pacient/sort_by_lastname', [PacientsController::class, 'PacientsSortByLastnamme'])->name('PacientsSortByLastnamme');
