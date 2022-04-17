@@ -5,11 +5,6 @@
 <div class="container">
   <div class="d-flex flex-wrap">
     <div class="col-3 pr-5">
-      <div class="d-flex mb-3">
-      <button type="button" name="stacionar" class="btn btn-success w-50 me-1 switch_tables_btn">Стационары</button>
-      <button type="button" name="bolezn" class="btn btn-success w-50 ms-1 switch_tables_btn">Болезни</button>
-      </div>
-      <hr>
       <div class="d-flex justify-content-between align-items-center w-0 mb-1">
         <x-modal modalId="addPacient" modalTitle="Редактировать" btnClass="btn-success btn-sm my-auto" btnText="🖉">
           <form class="" action="{{Route('UpdatePacient', $pacient->id)}}" method="post">
@@ -158,10 +153,19 @@
                 <form class="" action="{{Route('addPacientToStacionar', $pacient->id)}}" method="post">
                   @csrf
                   <div class="mb-3">
-                    <label for="stacionar_id">Стационар</label>
-                    <select class="js-select w-100" name="stacionar_id" id="stacionar_id">
+                    <label for="pac_stacionar_id">Стационар</label>
+                    <select class="js-select w-100" name="pac_stacionar_id" id="pac_stacionar_id">
                       @foreach($stacionars as $stacionar)
                       <option value="{{$stacionar->id}}">{{$stacionar->pname}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="dignoz">Диагноз</label>
+                    <select class="js-select w-100" name="diagnoz[]" multiple id="diagnoz">
+                      @foreach($bolezni as $bolezn)
+                      <option value="{{$bolezn->id}}">{{$bolezn->pname}}</option>
                       @endforeach
                     </select>
                   </div>
@@ -174,11 +178,6 @@
                   <div class="mb-3">
                     <label for="date_ou">Дата выписки</label>
                     <input type="date" id="date_ou" name="date_ou" class="form-control">
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="dignoz">Диагноз</label>
-                    <input type="text" id="diagnoz" name="diagnoz" class="form-control">
                   </div>
 
                   <div class="form-check">
@@ -195,10 +194,10 @@
               </th>
               <th scope="col">id</th>
               <th scope="col">Стационар</th>
-              <th scope="col">Дата поступления</th>
-              <th scope="col">Дата выписки</th>
               <th scope="col">Диагноз</th>
               <th scope="col">Дома</th>
+              <th scope="col">Дата поступления</th>
+              <th scope="col">Дата выписки</th>
               <th scope="col">Действия</th>
             </tr>
           </thead>
@@ -208,12 +207,12 @@
               <th scope="row"></th>
               <th scope="row">{{$stacionari->id}}</th>
               <td>{{$stacionari->stacionar->pname}}</td>
-              <td>{{$stacionari->date_in->format('d.m.Y')}}</td>
-              <td>{{$stacionari->date_ou->format('d.m.Y')}}</td>
               <td>{{$stacionari->diagnoz}}</td>
               <td>
                 <input type="checkbox" class="form-check-input" {{$stacionari->inhome == 1 ? 'checked':''}} disabled>
               </td>
+              <td>{{$stacionari->date_in->format('d.m.Y')}}</td>
+              <td>{{$stacionari->date_ou->format('d.m.Y')}}</td>
 
               <td class="text-start btn-group">
                 <x-modal modalId="Upd{{$stacionari->id}}" modalTitle="Обновить" btnClass="btn-success py-1" btnText="🖉">
@@ -260,99 +259,6 @@
               </td>
             </tr>
             @endforeach
-          </tbody>
-        </table>
-      </div>
-
-      <div class="table-responsive" id="bolezn" style="display:none">
-        <table class="table table-sm">
-          <thead class="">
-            <tr>
-            </tr>
-            <tr class="align-middle">
-              <th>
-              <x-modal modalId="addBolezn" modalTitle="Добавить болезнь" btnClass="btn-success" btnText="+">
-                <form class="" action="{{Route('addBoleznToPacient', $pacient->id)}}" method="post">
-                  @csrf
-                  <div class="mb-3">
-                    <label for="bolezn_id">Болезнь</label>
-                    <select class="js-select w-100" name="bolezn_id" id="bolezn_id">
-                      @foreach($bolezni as $bolezn)
-                      <option value="{{$bolezn->id}}">{{$bolezn->pname}}</option>
-                      @endforeach
-                    </select>
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="date_in">Дата начала</label>
-                    <input type="date" id="date_in" name="date_in" class="form-control">
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="date_ou">Дата окончания</label>
-                    <input type="date" id="date_ou" name="date_ou" class="form-control">
-                  </div>
-
-                  <div class="modal-footer p-0">
-                    <button type="submit" name="pacients_id" class="btn btn-success">Сохранить</button>
-                    <button type="button" class="btn btn-secondary m-0 switch_tables" data-bs-dismiss="modal">Закрыть</button>
-                  </div>
-                </form>
-              </x-modal>
-              </th>
-              <th scope="col">ID</th>
-              <th scope="col">Болезнь</th>
-              <th scope="col">Дата начала</th>
-              <th scope="col">Дата окончания</th>
-              <th scope="col">Действия</th>
-            </tr>
-          </thead>
-          <tbody class="align-middle">
-            @foreach($pacient->bolezns as $bolezn)
-            <tr>
-              <th scope="row"></th>
-              <th scope="row">{{$bolezn->id}}</th>
-              <td>{{$bolezn->descr->pname}}</td>
-              <td>{{$bolezn->date_in->format('d.m.Y')}}</td>
-              <td>{{$bolezn->date_ou->format('d.m.Y')}}</td>
-
-              <td class="text-start btn-group">
-                <x-modal modalId="UpdBolezn{{$bolezn->id}}" modalTitle="Обновить" btnClass="btn-success py-1" btnText="🖉">
-                  <form action="{{Route('updatePacientBolezn', $bolezn->id)}}" method="post">
-                    @csrf
-                    <div class="mb-3">
-                      <label for="bolezn_id">Болезнь</label>
-                      <select class="js-select w-100" name="bolezn_id" id="bolezn_id">
-                        @foreach($bolezni as $elem)
-                        <option value="{{$elem->id}}" {{$elem->id == $bolezn->bolezn_id ? 'selected':''}}>{{$elem->pname}}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="date_in">Дата поступления</label>
-                      <input type="date" id="date_in" name="date_in" class="form-control" value="{{$bolezn->date_in->format('Y-m-d')}}">
-                    </div>
-                    <div class="mb-3">
-                      <label for="date_ou">Дата выписки</label>
-                      <input type="date" id="date_ou" name="date_ou" class="form-control" value="{{$bolezn->date_ou->format('Y-m-d')}}">
-                    </div>
-                    <div class="modal-footer p-0">
-                      <button type="submit" name="pacients_id" class="btn btn-success">Сохранить</button>
-                      <button type="button" class="btn btn-secondary m-0" data-bs-dismiss="modal">Закрыть</button>
-                    </div>
-                  </form>
-                </x-modal>
-                <x-modal modalId="deleteBolezn{{$bolezn->id}}" modalTitle="Удалить" btnClass="btn-danger py-1" btnText="X">
-                  <p class="text-center">Вы действительно хотитие удалить запись болезни: "<b>{{$bolezn->descr->pname}}</b>?"</p>
-                  <div class="modal-footer p-0 mt-2">
-                    <a href="{{Route('deletePacientBolezn', $bolezn->id)}}" class="btn btn-danger">Удалить</a>
-                    <button type="button" class="btn btn-secondary m-0" data-bs-dismiss="modal">Закрыть</button>
-                  </div>
-                </x-modal>
-              </td>
-            </tr>
-            @endforeach
-
           </tbody>
         </table>
       </div>

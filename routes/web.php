@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/vacines/del/{id}', [VacinesConroller::class, 'DeleteVacine'])->name('DeleteVacine');
     Route::get('/staciionars/del/{id}', [StacionarController::class, 'DeleteStacionar'])->name('DeleteStacionar');
     Route::get('/pacient', [PacientsController::class, 'PacientsPage'])->name('PacientsPage');
-    
+
 });
 
 Route::post('pacient/sort_by_lastname', [PacientsController::class, 'PacientsSortByLastnamme'])->name('PacientsSortByLastnamme');
@@ -70,7 +70,4 @@ Route::group(['middleware' => 'availability'], function () {
   Route::post('/pacient/{id}/addPacientToStacionar', [PacientController::class, 'addPacientToStacionar'])->name('addPacientToStacionar');
   Route::post('/updatePacientStacionar/{id}', [PacientController::class, 'updatePacientStacionar'])->name('updatePacientStacionar');
   Route::get('/deletePacientStacionar/{id}', [PacientController::class, 'deletePacientStacionar'])->name('deletePacientStacionar');
-  Route::post('/pacient/{id}/addBoleznToPacient', [PacientController::class, 'addBoleznToPacient'])->name('addBoleznToPacient');
-  Route::post('/updatePacientBolezn/{id}', [PacientController::class, 'updatePacientBolezn'])->name('updatePacientBolezn');
-  Route::get('/deletePacientBolezn/{id}', [PacientController::class, 'deletePacientBolezn'])->name('deletePacientBolezn');
 });

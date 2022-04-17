@@ -16,7 +16,7 @@ class BolezniController extends Controller
   }
 
   public function PacientAddBolezn(Request $req, $id){
-    pacient_bolezn::where('pacients_id', $id)->delete();
+    pacient_bolezn::where('stacionar_id', $id)->delete();
     $pac_bolezns = $req->input('bolezn');
 
     foreach($pac_bolezns as $pac_bolezn){
@@ -25,7 +25,7 @@ class BolezniController extends Controller
         ]);
 
         pacient_bolezn::create([
-            'pacients_id' => $id,
+            'stacionar_id' => $id,
             'bolezn_id' => $bolezn->id,
         ]);
     }

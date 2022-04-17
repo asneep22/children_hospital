@@ -37,10 +37,6 @@ class pacients extends Model
     'date_add'=> 'datetime:d/m/Y',
 ];
 
-  public function bolezns(){
-    return $this->hasMany(pacient_bolezn::class);
-  }
-
   public function uchastok(){
       return $this->belongsTo(uchastok::class);
   }
@@ -55,10 +51,5 @@ class pacients extends Model
 
   public function vacine(){
       return $this->hasMany(vacines::class);
-  }
-
-  public function scopeFilter(Builder $builder, QueryFilter $filter){
-    return $filter->
-     apply($builder);
   }
 }

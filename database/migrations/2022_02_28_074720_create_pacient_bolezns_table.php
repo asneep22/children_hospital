@@ -18,8 +18,8 @@ return new class extends Migration
             // $table->date("date_in")->nullable();
             // $table->date("date_ou")->nullable();
             // $table->foreignId('pacients_id')->constrained('pacients')->onDelete('cascade')->onUpdate('cascade');;
-            $table->foreignId('stacionar_id')->constrained('stacionars')->onDelete('cascade')->onUpdate('cascade');;
-            $table->foreignId('bolezn_id')->constrained('bolezns')->onDelete('cascade')->onUpdate('cascade');;
+            $table->foreignId('pac_stacionar_id')->constrained('pacient_stacionars')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('bolezn_id')->constrained('bolezns')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

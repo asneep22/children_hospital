@@ -21,9 +21,7 @@ return new class extends Migration
             $table->foreignId('stacionar_id')->nullable()->constrained('stacionars')->onDelete('cascade')->onUpdate('cascade');
             $table->date('date_in')->nullable();
             $table->date('date_ou')->nullable();
-            $table->string('recommend')->nullable();//new
-            // $table->string('diagnoz'); убираем. меняется структура.....
-            // $table->boolean('inhome')->nullable();
+            $table->string('recommend')->nullable();
             $table->timestamps();
         });
     }

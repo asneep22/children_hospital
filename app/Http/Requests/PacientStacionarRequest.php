@@ -25,7 +25,8 @@ class PacientStacionarRequest extends FormRequest
     public function rules()
     {
         return [
-          'stacionar_id' => 'required',
+          'diagnoz' => 'required',
+          'pac_stacionar_id' => 'required',
           'date_in' => 'required',
           'diagnoz' => 'required',
         ];
@@ -34,7 +35,8 @@ class PacientStacionarRequest extends FormRequest
     public function messages()
     {
         return [
-            'stacionar_id.required' => "Поле 'Стационар' обязательно для заполнения",
+            'pac_stacionar_id.required' => "Поле 'Стационар' обязательно для заполнения",
+            'diagnoz.required' => "Поле 'Диагноз' обязательно для заполнения",
             'date_in.required' => "Поле 'Дата поступления' обязательно для заполнения",
             'diagnoz.required' => "Поле 'Диагноз' обязательно для заполнения",
         ];

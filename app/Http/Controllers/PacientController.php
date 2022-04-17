@@ -32,7 +32,7 @@ class PacientController extends Controller
     $pac_vacines = vacines::where('pacients_id', $id)->with('descr_vacines')->get();
 
     $all_bolezn = bolezn::all();
-    $pac_bolezns = pacient_bolezn::where('pacients_id', $id)->with('bolezns')->get();
+    $pac_bolezns = pacient_stacionar::where('pacients_id', $id)->with('pacient_bolezns')->with('bolezns')->get();
 
     $uchastoks = uchastok::all();
     $roddoms = roddom::all();
@@ -75,53 +75,32 @@ class PacientController extends Controller
     return redirect()->back();
   }
 
-  public function AddBoleznToPacient(PacientBoleznReq $req, $id){
-    $elem = ucfirst(mb_strtolower(trim($req['bolezn_id'])));
-
-    if($bolezn = bolezn::firstOrCreate(
-      ['id' => $req['bolezn_id']],
-      ['pname' => $elem]
-      ))
-
-      $req['pacients_id'] = $id;
-      $req['bolezn_id'] = $bolezn->id;
-      if (!$req['date_ou']){
-        $req['date_ou'] = Carbon::create(2011,0,0);
-      }
-
-        pacient_bolezn::create($req->all());
-        flash('Болезнь добавлена')->success();
-        return redirect()->back();
-    }
-
-    public function updatePacientBolezn(PacientBoleznReq $req, $id){
-    $elem = ucfirst(mb_strtolower(trim($req['bolezn_id'])));
-
-      if($bolezn = bolezn::firstOrCreate(
-        ['id' => $req['bolezn_id']],
-        ['pname' => $elem]
-      )){  $req["bolezn_id"] = $bolezn->id;  }
-
-      $req['pacient_id'] = session()->get('pacient_id');
-      pacient_bolezn::find($id)->update($req->except('pacients_id'));
-      flash('Запись болезни пациента обновлена')->success();
-      return redirect()->back();
-    }
-
-    public function deletePacientBolezn($id){
-      pacient_bolezn::find($id)->delete();
-      flash('Запись болезни пациента удалена')->success();
-      return redirect()->back();
-    }
-
     public function addPacientToStacionar(PacientStacionarRequest $req, $id){
 
       if($stacionar = stacionar::firstOrCreate(
-        ['id' => $req['stacionar_id']],
-        ['pname' => $req['stacionar_id']]
+        ['id' => $req['pac_stacionar_id']],
+        ['pname' => $req['pac_stacionar_id']]
       )){
-        $req['stacionar_id'] = $stacionar->id;
+        $req['pac_stacionar_id'] = $stacionar->id;
       }
+
+
+      if ($req->diagnoz){
+        foreach ($req->diagnoz as $elem) {
+          if ($elem) {
+            $elem = ucfirst(mb_strtolower(trim($elem)));
+            $find_bolezn = bolezn::where('pname', $elem)->first();
+            if (!$find_bolezn) {
+              $find_bolezn = bolezn::create(['pname' => $elem]);
+            }
+            pacient_bolezn::create([
+              'pac_stacionar_id' => $stacionar->id,
+              'bolezn_id' => $find_bolezn->id,
+            ]);
+          }
+        }
+      }
+
       $req['pacients_id'] = $id;
       if (!$req['date_ou']){
         $req['date_ou'] = Carbon::create(2011,0,0);

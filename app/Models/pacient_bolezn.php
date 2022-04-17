@@ -20,9 +20,9 @@ class pacient_bolezn extends Model
     // }
 
     public function descr(){
-      return $this->belongsTo(bolezn::class, 'bolezn_id');
+      return $this->belongsTo(bolezn::class, 'bolezn_id', "id");
     }
-    public function descr1(){
-      return $this->belongsTo(bolezn::class,"bolezn_id","id");
+    public function stacionar(){
+      return $this->belongsTo(pacient_stacionar::class,"stacionar_id");
     }
 }
