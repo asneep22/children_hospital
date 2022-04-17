@@ -2,6 +2,8 @@ import $ from 'jquery';
 import 'select2';
 import 'daterangepicker';
 import 'bootstrap';
+
+
 const axios = require('axios').default;
 
 window.$ = window.jQuery = $;
@@ -91,7 +93,14 @@ $(document).ready(function () {
       $('input[name="sort_field"]').val($(this).data('filter'));
       $('#search').trigger("submit");
       return false;
-    })
+    });
+
+    $('.exportword').on("click",async function(){
+      
+//       var converted = htmlDocx.asBlob("<h1>oo</h1>");
+// saveAs(converted, 'test.docx');
+      return false;
+    });
 
     $(".collapse").on('show.bs.collapse', function () {
       
@@ -101,7 +110,7 @@ $(document).ready(function () {
       .then(function (response) {
         // let data=response.data.data;
         console.log(response);
-        $(`#accordion${id} td`).html(response.data);
+        $(`#accordion${id} td .preload`).html(response.data);
       })
       .catch(function (error) {
         console.log(error);

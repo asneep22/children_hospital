@@ -1,4 +1,6 @@
-<div class="row">
+<div class="row mt-3">
+@php ($stacs = $pacient["stacionars"]->resolve())
+@if (count($stacs))
     <div class="col-md-8">
         <div class="table-responsive">
             <h4 class="text-center">Болезни</h4>
@@ -14,7 +16,7 @@
                 </thead>
                 <tbody>
 
-                    @foreach($stacs=$pacient["stacionars"]->resolve() as $stac)
+                    @foreach($stacs as $stac)
 
                     <tr>
                         <td>{{$stac["vid"]}}</td>
@@ -31,6 +33,9 @@
             </table>
         </div>
     </div>
+@endif
+    @php ($vacs = $pacient["vacine"]->resolve())
+    @if (count($vacs))
     <div class="col-md-4">
         <div class="table-responsive">
 
@@ -42,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($pacient["vacine"]->resolve() as $vac)
+                    @foreach($vacs as $vac)
                     <tr>
                         <td>{{$vac["vacine"]}}</td>
                     </tr>
@@ -51,4 +56,5 @@
             </table>
         </div>
     </div>
+    @endif
 </div>

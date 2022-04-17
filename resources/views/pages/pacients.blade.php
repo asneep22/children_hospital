@@ -5,7 +5,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="table-responsive">
-      <table class="table table-sm table-hover table-bordered">
+      <table class="table table-sm table-bordered">
         <thead>
           <tr class="">
             <th scope="col">
@@ -13,19 +13,10 @@
             </th>
             <th scope="col">
 
-              <a data-filter="lastname|{{$check[0] == 'lastname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Фамилия</a>
+              <a data-filter="lastname|{{$check[0] == 'lastname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Фамилия Имя Отчество</a>
 
             </th>
-            <th scope="col">
-
-              <a data-filter="pname|{{$check[0] == 'pname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Имя</a>
-
-            </th>
-            <th scope="col">
-
-              <a data-filter="surname|{{$check[0] == 'surname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Отчество</a>
-
-            </th>
+            
             <th scope="col">
 
               <a data-filter="birthday|{{$check[0] == 'birthday' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Дата рождения</a>
@@ -135,7 +126,7 @@
     </form>
   </x-modal>
             </th>
-            <th colspan="3">
+            <th>
               <form action="{{Route('PacientsPage')}}" id="search" method="get">
 
                 <div class="btn-group w-100">
@@ -188,9 +179,7 @@
           <tr class="p-0 m-0" role="button" data-bs-toggle="collapse" data-bs-target="#accordion{{$pacient->id}}"  aria-expanded="false" class="clickable">
             <th>
               <a href="{{Route('OnePacientPage', $pacient->id)}}" class="forlink">{{$pacient->id}}</a></td>
-            <td>{{$pacient->lastname}}</td>
-            <td>{{$pacient->pname}}</td>
-            <td>{{$pacient->surname}}</td>
+            <td>{{$pacient->lastname}} {{$pacient->pname}} {{$pacient->surname}}</td>
             <td class="text-center">{{$pacient->birthday->format('d.m.Y')}}</td>
             <td>{{$pacient->uchastok->pname}}</td>
             <td>{{$pacient->roddom->pname}}</td>
@@ -204,9 +193,99 @@
            </td>
             </td>
           </tr>
-          <tr class="p-0 m-0 collapse" data-id="{{$pacient->id}}" id="accordion{{$pacient->id}}">
+          <tr class="p-0 m-0 collapse border border-danger" data-id="{{$pacient->id}}" id="accordion{{$pacient->id}}">
         <td colspan="12" class="p-0 m-0">
+        <div class="dropdown">
+  <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Экспорт
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><button class="dropdown-item exportword" data-id="{{$pacient->id}}">Экспорт в Word</button></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+</div>
+          <h2 class="text-center">Личная карточка пациента</h2>
+          <div class="row">
+              <div class="col-md-4">
+                <div class="table-responsive">
+                <table class="table table-sm">
+            <tr>
+              <th>Фамилия</th>
+              <td>{{$pacient->lastname}}</td>
+            </tr>
+            <tr>
+              <th>Имя</th>
+              <td>{{$pacient->pname}}</td>
+            </tr>
+            <tr>
+              <th>Отчество</th>
+              <td>{{$pacient->surname}}</td>
+            </tr>
+            <tr>
+              <th>Дата рождения</th>
+              <td>{{$pacient->birthday->format('d.m.Y')}}</td>
+            </tr>
+                </table>
+
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="table-responsive">
+
+
+               
+                <table class="table table-sm">
+            <tr>
+              <th>Участок</th>
+              <td>{{$pacient->uchastok->pname}}</td>
+            </tr>
+            <tr>
+              <th>Роддом</th>
+              <td>{{$pacient->roddom->pname}}</td>
+            </tr>
+            <tr>
+              <th>Рост</th>
+              <td>{{$pacient->rost}}</td>
+            </tr>
+            <tr>
+              <th>Вес</th>
+              <td>{{$pacient->ves}}</td>
+            </tr>
+          </table>
+
+
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="table-responsive">
+                <table class="table table-sm">
+            <tr>
+              <th>Пол</th>
+              <td>{{$pacient->pol == 1?'Мальчик':'Девочка'}}</td>
+            </tr>
+            <tr>
+              <th>Срок гестации</th>
+              <td>{{$pacient->gestaci}}</td>
+            </tr>
+            <tr>
+              <th>Дата добавления</th>
+              <td>{{$pacient->date_add->format('d.m.Y')}}</td>
+            </tr>
+            <tr>
+              <th>Рекомендации</th>
+              <td>{{$pacient->recommend}}</td>
+            </tr>
+          </table>
+
+                </div>
+              </div>
+</div>
+          </div>
+          
+          <div class="preload">
         <div class="text-center"><div class="lds-heart"><div></div></div></div>
+        </div>
         </td>
     </tr>
           @endforeach
