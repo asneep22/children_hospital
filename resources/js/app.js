@@ -101,7 +101,7 @@ $(document).ready(function () {
       .then(function (response) {
         // let data=response.data.data;
         console.log(response);
-        $(`#accordion${id} td`).html(JSON.stringify(response));
+        $(`#accordion${id} td`).html(response.data);
       })
       .catch(function (error) {
         console.log(error);

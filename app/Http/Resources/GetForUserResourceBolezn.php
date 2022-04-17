@@ -14,11 +14,10 @@ class GetForUserResourceBolezn extends JsonResource
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
+        //  return parent::toArray($request);
         return [
-            "bolezn"=>$this->descr1->pname,
-            "date_in"=>$this->date_in,
-            "date_ou"=>$this->date_ou
+            "bolezn_id"=>$this->bolezn_id,
+            "bolezn"=>$this->descr->pname
 
         ];
     }

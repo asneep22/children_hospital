@@ -17,12 +17,11 @@ class GetForUserResource extends JsonResource
         // return parent::toArray($request);
         return [
             "audio"=>$this->audio,
-            // "bolezns"=>GetForUserResourceBolezn::collection($this->bolezns),
             "gruppasvs"=>$this->gruppasvs,
             "recepient"=>$this->recepient,
             "recommend"=>$this->recommend,
             "skrinning"=>$this->skrinning,
-            "stacionars"=>$this->stacionars,
+            "stacionars"=>GetForUserResourceStacionars::collection($this->stacionars),
             "vacine"=>GetForUserResourceVacine::collection($this->vacine),
             "vich"=>$this->vich,
 

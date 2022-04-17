@@ -16,11 +16,11 @@ use App\Http\Resources\GetForUserResource;
 class PacientsController extends Controller
 {
   public function sved($id){
-    return pacients::with('stacionars','vacine')->find($id);
+    // return pacients::with('stacionars','vacine')->find($id);
     $pacient = new GetForUserResource(pacients::with('stacionars','vacine')
     ->find($id));
     if($pacient){
-      return $pacient;
+      // return $pacient;
       return view('components.pacientone')->with('pacient',$pacient->resolve());
       
     }
