@@ -2,8 +2,6 @@ import $ from 'jquery';
 import 'select2';
 import 'daterangepicker';
 import 'bootstrap';
-
-
 const axios = require('axios').default;
 
 window.$ = window.jQuery = $;
@@ -96,9 +94,21 @@ $(document).ready(function () {
     });
 
     $('.exportword').on("click",async function(){
-      
-//       var converted = htmlDocx.asBlob("<h1>oo</h1>");
-// saveAs(converted, 'test.docx');
+      const filePath = './example.docx';
+      const fileBuffer = await HTMLtoDOCX("<p></p>", null, {
+        table: { row: { cantSplit: true } },
+        footer: true,
+        pageNumber: true,
+      });
+      const fs = require('fs');
+    
+      fs.writeFile(filePath, fileBuffer, (error) => {
+        if (error) {
+          console.log('Docx file creation failed');
+          return;
+        }
+        console.log('Docx file created successfully');
+      });
       return false;
     });
 
