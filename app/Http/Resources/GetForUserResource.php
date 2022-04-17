@@ -17,7 +17,7 @@ class GetForUserResource extends JsonResource
         // return parent::toArray($request);
         return [
             "audio"=>$this->audio,
-            "bolezns"=>GetForUserResourceBolezn::collection($this->bolezns),
+            // "bolezns"=>GetForUserResourceBolezn::collection($this->bolezns),
             "gruppasvs"=>$this->gruppasvs,
             "recepient"=>$this->recepient,
             "recommend"=>$this->recommend,

@@ -15,6 +15,7 @@
       <label for="password">Пароль</label>
       <input type="password" id="password" name="password" class="form-control">
     </div>
+    
 
     <button type="submit" class="btn btn-success m-auto mr-0">Авторизоваться</button>
   </form>

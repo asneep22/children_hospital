@@ -23,7 +23,11 @@ use GuzzleHttp\Middleware;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/token', function (Request $request) {
+  $token = $request->session()->token();
 
+  $token = csrf_token();
+});
 Route::get('/', [AuthController::class, 'AuthPage'])->name('AuthPage');
 Route::post('/tryAutorization', [AuthController::class, 'TryAuth'])->name('TryAuth');
 Route::get('/logout', [AuthController::class, 'Logout'])->name('Logout');
@@ -70,4 +74,11 @@ Route::group(['middleware' => 'availability'], function () {
   Route::post('/pacient/{id}/addPacientToStacionar', [PacientController::class, 'addPacientToStacionar'])->name('addPacientToStacionar');
   Route::post('/updatePacientStacionar/{id}', [PacientController::class, 'updatePacientStacionar'])->name('updatePacientStacionar');
   Route::get('/deletePacientStacionar/{id}', [PacientController::class, 'deletePacientStacionar'])->name('deletePacientStacionar');
+});
+Route::get('clear', function () {
+  Log::debug('CLEARED');
+  Artisan::call('cache:clear');
+  Artisan::call('route:clear');
+  Artisan::call('config:clear');
+  Artisan::call('view:clear');
 });

@@ -16,9 +16,11 @@ use App\Http\Resources\GetForUserResource;
 class PacientsController extends Controller
 {
   public function sved($id){
-    $pacient = new GetForUserResource(pacients::with('bolezns','stacionars','vacine')->find($id));
+    return pacients::with('stacionars','vacine')->find($id);
+    $pacient = new GetForUserResource(pacients::with('stacionars','vacine')
+    ->find($id));
     if($pacient){
-      //  return $pacient;
+      return $pacient;
       return view('components.pacientone')->with('pacient',$pacient->resolve());
       
     }
@@ -62,6 +64,12 @@ class PacientsController extends Controller
     })
       ->orderBy($check[0], $check[1])
       ->paginate(25);
+    //   $posts = Post::whereHas('comments', function (Builder $query) {
+    //     $query->where('content', 'like', 'code%');
+    // }, '>=', 10)->get();
+
+
+
 
     // $pacients1 = pacients::with(['roddom', 'uchastok'])
     //   ->where('lastname', 'LIKE', '%' . $search . '%')

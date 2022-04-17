@@ -7,7 +7,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link href="{{asset(URL::asset('css/app.css'))}}" rel="stylesheet" />
-
 </head>
 
 <body class="d-flex flex-column min-vh-100">

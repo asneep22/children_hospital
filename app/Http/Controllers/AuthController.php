@@ -14,7 +14,6 @@ class AuthController extends Controller
     }
 
     public function TryAuth(AuthReq $req){
-
       if(Auth::attempt($req->only(['login', 'password']))){
         return redirect()->route('PacientsPage');
       }

@@ -46,7 +46,7 @@ class pacients extends Model
   }
 
   public function stacionars(){
-      return $this->hasMany(pacient_stacionar::class);
+      return $this->hasManyThrough(pacient_bolezn::class,pacient_stacionar::class);
   }
 
   public function vacine(){

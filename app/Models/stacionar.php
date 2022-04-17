@@ -16,4 +16,7 @@ class stacionar extends Model
    public function stacionar(){
        return $this->belongsTo(pacient_stacionar::class);
    }
+   public function bolezn(){
+       return $this->hasMany(pacient_bolezn::class);
+   }
 }
