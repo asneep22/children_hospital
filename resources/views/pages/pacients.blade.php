@@ -16,7 +16,7 @@
               <a data-filter="lastname|{{$check[0] == 'lastname' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Фамилия Имя Отчество</a>
 
             </th>
-            
+
             <th scope="col">
 
               <a data-filter="birthday|{{$check[0] == 'birthday' ? ($check[1] == 'desc' ? 'asc':'desc') : 'asc'}}" class="filter" href="#">Дата рождения</a>
@@ -57,74 +57,74 @@
           </tr>
           <tr>
             <th>
-            <x-modal modalId="addPacient" modalTitle="Добавить пациента" btnClass="btn-success btn-sm w-100" btnText="+">
-    <form class="" action="{{Route('AddPacient')}}" method="post">
-      @csrf
-      <div class="mb-3">
-        <label for="lastname">Фамилия</label>
-        <input type="text" id="lastname" name="lastname" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label for="pname">Имя</label>
-        <input type="text" id="pname" name="pname" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label for="surname">Отчество</label>
-        <input type="text" id="surname" name="surname" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label for="birthday">Дата рождения</label>
-        <input type="date" id="birthday" name="birthday" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label for="uchastok_id">Участок</label>
-        <select class="js-select" name="uchastok_id">
-          @foreach($uchastoks as $uchastok)
-          <option value="{{$uchastok->id}}">{{$uchastok->pname}}</option>
-          @endforeach
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="roddom_id">Роддом</label>
-        <select class="js-select" name="roddom_id">
-          @foreach($roddoms as $roddom)
-          <option value="{{$roddom->id}}">{{$roddom->pname}}</option>
-          @endforeach
-        </select>
-      </div>
-      <div class="d-flex mb-3">
-        <div class="w-50">
-          <label for="rost">Рост</label>
-          <input type="text" id="rost" name="rost" class="form-control">
-        </div>
-        <div class="mx-2 w-50">
-          <label for="ves">Вес</label>
-          <input type="text" id="ves" name="ves" class="form-control">
-        </div>
-        <div class="mx-2 w-50">
-          <label for="gestaci">Неделя рождения</label>
-          <input type="text" id="gestaci" name="gestaci" class="form-control">
-        </div>
-      </div>
+              <x-modal modalId="addPacient" modalTitle="Добавить пациента" btnClass="btn-success btn-sm w-100" btnText="+">
+                <form class="" action="{{Route('AddPacient')}}" method="post">
+                  @csrf
+                  <div class="mb-3">
+                    <label for="lastname">Фамилия</label>
+                    <input type="text" id="lastname" name="lastname" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                    <label for="pname">Имя</label>
+                    <input type="text" id="pname" name="pname" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                    <label for="surname">Отчество</label>
+                    <input type="text" id="surname" name="surname" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                    <label for="birthday">Дата рождения</label>
+                    <input type="date" id="birthday" name="birthday" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                    <label for="uchastok_id">Участок</label>
+                    <select class="js-select" name="uchastok_id">
+                      @foreach($uchastoks as $uchastok)
+                      <option value="{{$uchastok->id}}">{{$uchastok->pname}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="roddom_id">Роддом</label>
+                    <select class="js-select" name="roddom_id">
+                      @foreach($roddoms as $roddom)
+                      <option value="{{$roddom->id}}">{{$roddom->pname}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="d-flex mb-3">
+                    <div class="w-50">
+                      <label for="rost">Рост</label>
+                      <input type="text" id="rost" name="rost" class="form-control">
+                    </div>
+                    <div class="mx-2 w-50">
+                      <label for="ves">Вес</label>
+                      <input type="text" id="ves" name="ves" class="form-control">
+                    </div>
+                    <div class="mx-2 w-50">
+                      <label for="gestaci">Неделя рождения</label>
+                      <input type="text" id="gestaci" name="gestaci" class="form-control">
+                    </div>
+                  </div>
 
-      <div class="mb-3">
-        <label for="date_add">Дата поступления</label>
-        <input type="date" name="date_add" class="form-control">
-      </div>
+                  <div class="mb-3">
+                    <label for="date_add">Дата поступления</label>
+                    <input type="date" name="date_add" class="form-control">
+                  </div>
 
-      <div class="mb-3">
-        <label for="birthday">Рекомендации</label>
-        <textarea id="recommend" rows="3" name="recommend" class="form-control"></textarea>
-      </div>
+                  <div class="mb-3">
+                    <label for="birthday">Рекомендации</label>
+                    <textarea id="recommend" rows="3" name="recommend" class="form-control"></textarea>
+                  </div>
 
-      <div class="modal-footer p-0">
-        <button type="submit" class="btn btn-success">Сохранить</button>
-        <button type="button" class="btn btn-secondary m-0" data-bs-dismiss="modal">Закрыть</button>
-      </div>
+                  <div class="modal-footer p-0">
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+                    <button type="button" class="btn btn-secondary m-0" data-bs-dismiss="modal">Закрыть</button>
+                  </div>
 
 
-    </form>
-  </x-modal>
+                </form>
+              </x-modal>
             </th>
             <th>
               <form action="{{Route('PacientsPage')}}" id="search" method="get">
@@ -171,12 +171,12 @@
             </th>
             <th></th>
             <th><input type="text" class="form-control form-control-sm daterange" data-field="date_add" placeholder="Период" value="{{isset($_GET['date_add']) ? $_GET['date_add']:''}}" /></th>
-          
+
           </tr>
         </thead>
         <tbody>
           @foreach($pacients1 as $pacient)
-          <tr class="p-0 m-0" role="button" data-bs-toggle="collapse" data-bs-target="#accordion{{$pacient->id}}"  aria-expanded="false" class="clickable">
+          <tr class="p-0 m-0" role="button" data-bs-toggle="collapse" data-bs-target="#accordion{{$pacient->id}}" aria-expanded="false" class="clickable">
             <th>
               <a href="{{Route('OnePacientPage', $pacient->id)}}" class="forlink">{{$pacient->id}}</a></td>
             <td>{{$pacient->lastname}} {{$pacient->pname}} {{$pacient->surname}}</td>
@@ -189,116 +189,121 @@
 
             </td>
             <td>{{$pacient->gestaci}}</td>
-            <td>{{$pacient->date_add->format('d.m.Y')}}      
-           </td>
+            <td>{{$pacient->date_add->format('d.m.Y')}}
+            </td>
             </td>
           </tr>
           <tr class="p-0 m-0 collapse border border-danger" data-id="{{$pacient->id}}" id="accordion{{$pacient->id}}">
-        <td colspan="12" class="p-0 m-0">
-        <div class="dropdown">
-  <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-    Экспорт
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><button class="dropdown-item exportword" data-id="{{$pacient->id}}">Экспорт в Word</button></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-  </ul>
-</div>
-          <h2 class="text-center">Личная карточка пациента</h2>
-          <div class="row">
-              <div class="col-md-4">
-                <div class="table-responsive">
-                <table class="table table-sm">
-            <tr>
-              <th>Фамилия</th>
-              <td>{{$pacient->lastname}}</td>
-            </tr>
-            <tr>
-              <th>Имя</th>
-              <td>{{$pacient->pname}}</td>
-            </tr>
-            <tr>
-              <th>Отчество</th>
-              <td>{{$pacient->surname}}</td>
-            </tr>
-            <tr>
-              <th>Дата рождения</th>
-              <td>{{$pacient->birthday->format('d.m.Y')}}</td>
-            </tr>
-                </table>
+            <td colspan="12" class="p-0 m-0">
+              <div class="dropdown">
+                <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  Экспорт
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><button class="dropdown-item exportword" data-name="{{$pacient->lastname}} {{$pacient->pname}} {{$pacient->surname}}" data-id="{{$pacient->id}}">Экспорт в Word</button></li>
+                </ul>
+              </div>
+              <div id="lk{{$pacient->id}}">
+                <h2 class="text-center">Личная карточка пациента</h2>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="table-responsive">
+                      <table class="table table-sm">
+                        <tr>
+                          <th>Фамилия</th>
+                          <td>{{$pacient->lastname}}</td>
+                        </tr>
+                        <tr>
+                          <th>Имя</th>
+                          <td>{{$pacient->pname}}</td>
+                        </tr>
+                        <tr>
+                          <th>Отчество</th>
+                          <td>{{$pacient->surname}}</td>
+                        </tr>
+                        <tr>
+                          <th>Дата рождения</th>
+                          <td>{{$pacient->birthday->format('d.m.Y')}}</td>
+                        </tr>
+                      </table>
 
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="table-responsive">
+
+
+
+                      <table class="table table-sm">
+                        <tr>
+                          <th>Участок</th>
+                          <td>{{$pacient->uchastok->pname}}</td>
+                        </tr>
+                        <tr>
+                          <th>Роддом</th>
+                          <td>{{$pacient->roddom->pname}}</td>
+                        </tr>
+                        <tr>
+                          <th>Рост</th>
+                          <td>{{$pacient->rost}}</td>
+                        </tr>
+                        <tr>
+                          <th>Вес</th>
+                          <td>{{$pacient->ves}}</td>
+                        </tr>
+                      </table>
+
+
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="table-responsive">
+                      <table class="table table-sm">
+                        <tr>
+                          <th>Пол</th>
+                          <td>{{$pacient->pol == 1?'Мальчик':'Девочка'}}</td>
+                        </tr>
+                        <tr>
+                          <th>Срок гестации</th>
+                          <td>{{$pacient->gestaci}}</td>
+                        </tr>
+                        <tr>
+                          <th>Дата добавления</th>
+                          <td>{{$pacient->date_add->format('d.m.Y')}}</td>
+                        </tr>
+                        <tr>
+                          <th>Рекомендации</th>
+                          <td>{{$pacient->recommend}}</td>
+                        </tr>
+                      </table>
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="preload">
+                  <div class="text-center">
+                    <div class="lds-heart">
+                      <div></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="table-responsive">
-
-
-               
-                <table class="table table-sm">
-            <tr>
-              <th>Участок</th>
-              <td>{{$pacient->uchastok->pname}}</td>
-            </tr>
-            <tr>
-              <th>Роддом</th>
-              <td>{{$pacient->roddom->pname}}</td>
-            </tr>
-            <tr>
-              <th>Рост</th>
-              <td>{{$pacient->rost}}</td>
-            </tr>
-            <tr>
-              <th>Вес</th>
-              <td>{{$pacient->ves}}</td>
-            </tr>
-          </table>
-
-
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="table-responsive">
-                <table class="table table-sm">
-            <tr>
-              <th>Пол</th>
-              <td>{{$pacient->pol == 1?'Мальчик':'Девочка'}}</td>
-            </tr>
-            <tr>
-              <th>Срок гестации</th>
-              <td>{{$pacient->gestaci}}</td>
-            </tr>
-            <tr>
-              <th>Дата добавления</th>
-              <td>{{$pacient->date_add->format('d.m.Y')}}</td>
-            </tr>
-            <tr>
-              <th>Рекомендации</th>
-              <td>{{$pacient->recommend}}</td>
-            </tr>
-          </table>
-
-                </div>
-              </div>
-</div>
-          </div>
-          
-          <div class="preload">
-        <div class="text-center"><div class="lds-heart"><div></div></div></div>
-        </div>
-        </td>
-    </tr>
-          @endforeach
-        </tbody>
-      </table>
-
-   
-      
-      
     </div>
+    </td>
+    </tr>
+    @endforeach
+    </tbody>
+    </table>
+
+
+
+
   </div>
-  {{$pacients1->withQueryString()->links()}}
-  
+</div>
+{{$pacients1->withQueryString()->links()}}
+
 </div>
 
 @endsection

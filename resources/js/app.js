@@ -93,22 +93,37 @@ $(document).ready(function () {
       return false;
     });
 
+    function Export2Word(element, filename = ''){
+      let style= "<style>table{width:100%;border-collapse:collapse}th, td{border:1px solid #000;}</style>";
+      let preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title>"+style+"</head><body>";
+      let postHtml = "</body></html>";
+      
+      var html = preHtml+document.getElementById(element).innerHTML+postHtml;
+  
+      var blob = new Blob(['\ufeff', html], {
+          type: 'application/msword'
+      });
+      
+      var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+      
+      filename = filename?filename+'.doc':'document.doc';
+      
+      var downloadLink = document.createElement("a");
+  
+      document.body.appendChild(downloadLink);
+      
+      if(navigator.msSaveOrOpenBlob ){
+          navigator.msSaveOrOpenBlob(blob, filename);
+      }else{
+          downloadLink.href = url;
+          downloadLink.download = filename;
+          downloadLink.click();
+      }
+      
+      document.body.removeChild(downloadLink);
+  }
     $('.exportword').on("click",async function(){
-      const filePath = './example.docx';
-      const fileBuffer = await HTMLtoDOCX("<p></p>", null, {
-        table: { row: { cantSplit: true } },
-        footer: true,
-        pageNumber: true,
-      });
-      const fs = require('fs');
-    
-      fs.writeFile(filePath, fileBuffer, (error) => {
-        if (error) {
-          console.log('Docx file creation failed');
-          return;
-        }
-        console.log('Docx file created successfully');
-      });
+      Export2Word(`lk${$(this).data('id')}`,$(this).data('name'));
       return false;
     });
 
