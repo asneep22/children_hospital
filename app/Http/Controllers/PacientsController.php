@@ -198,18 +198,13 @@ class PacientsController extends Controller
       $table->addCell()->addText(implode(", ", $vas));
     }
 
-
-
-
-
-
     $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($wordTest, 'Word2007');
     try {
-      $objectWriter->save(storage_path('TestWordFile.docx'));
+      $objectWriter->save(storage_path('Отчет по перинатальной патологии '.$d11.' - '.$d22.'.docx'));
     } catch (Exception $e) {
     }
 
-    return response()->download(storage_path('TestWordFile.docx'));
+    return response()->download(storage_path('Отчет по перинатальной патологии '.$d11.' - '.$d22.'.docx'));
   }
   public function sved($id)
   {
