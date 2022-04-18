@@ -17,6 +17,39 @@ use App\Models\Policlinic;
 
 class PacientsController extends Controller
 {
+  public function report_analiz($d1, $d2){
+    $policlinic = Policlinic::first();
+    $wordTest = new \PhpOffice\PhpWord\PhpWord();
+    $wordTest->setDefaultFontName('Times New Roman');
+    $wordTest->setDefaultFontSize(12);
+    $section = $wordTest->addSection();
+    $d11 = date("d.m.Y", strtotime($d1));
+    $d22 = date("d.m.Y", strtotime($d2));
+    $res = pacients::whereBetween("birthday", [$d1, $d2])->count();
+    $res1 = pacients::whereBetween("birthday", [$d1, $d2])->whereHas('stacionars',function ( $query) use($d1,$d2) {
+      $query->whereBetween('date_in', [$d1,$d2])->orWhereBetween('date_ou', [$d1,$d2]);
+  })->count();
+  // return $res1;
+
+    $section->addText("Анализ заболеваемости новорожденных {$policlinic->pname}, {$policlinic->address} в период {$d11} по {$d22}",  ['bold' => true], ['bold' => true, 'align' => 'center']);
+
+    $section->addTextBreak(2);
+    $table = $section->addTable();
+    $table->addRow();
+    $table->addCell()->addText("Всего родилось детей     ");
+    $table->addCell()->addText(" ".$res." ", ['bold' => true,'underline' => 'single']);
+    $table->addRow();
+    $table->addCell()->addText("Из них заболело (абс. число - %) -");
+    $table->addCell()->addText($res1." (".(round(($res1/$res*100),2))."%)");
+
+    $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($wordTest, 'Word2007');
+    try {
+      $objectWriter->save(storage_path('Анализ заболеваемости новорожденных '.$d11.' - '.$d22.'.docx'));
+    } catch (Exception $e) {
+    }
+
+    return response()->download(storage_path('Анализ заболеваемости новорожденных '.$d11.' - '.$d22.'.docx'))->deleteFileAfterSend(true);
+  }
   public function report_nedo($d1, $d2)
   {
     //считаем все болезни
@@ -52,8 +85,6 @@ class PacientsController extends Controller
     $wordTest->setDefaultFontName('Times New Roman');
     $wordTest->setDefaultFontSize(12);
     $section = $wordTest->addSection();
-    // $fontStyle = new \PhpOffice\PhpWord\Style\Font();
-    // $fontStyle->setBold(true);
     $d11 = date("d.m.Y", strtotime($d1));
     $d22 = date("d.m.Y", strtotime($d2));
     $section->addText("Отчет по перинатальной патологии {$policlinic->pname}, {$policlinic->address} в период {$d11} по {$d22}",  ['bold' => true], ['bold' => true, 'align' => 'center']);
@@ -204,8 +235,9 @@ class PacientsController extends Controller
     } catch (Exception $e) {
     }
 
-    return response()->download(storage_path('Отчет по перинатальной патологии '.$d11.' - '.$d22.'.docx'));
+    return response()->download(storage_path('Отчет по перинатальной патологии '.$d11.' - '.$d22.'.docx'))->deleteFileAfterSend(true);
   }
+
   public function sved($id)
   {
     // return pacients::with('stacionars','vacine')->find($id);
