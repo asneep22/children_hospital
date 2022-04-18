@@ -352,9 +352,38 @@
 
 
   </div>
-</div>
+
 {{$pacients1->withQueryString()->links()}}
 
 </div>
-
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form action="" method="post">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportModalLabel">Отчет</h5>
+        <button type="button" class="btn-close" id="closewin" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <input type="text" required class="form-control daterangerreport" placeholder="Период" />
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="reportModal1" tabindex="-1" aria-labelledby="reportModalLabel1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form action="" method="post">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportModalLabel1">Отчет</h5>
+        <button type="button" class="btn-close" id="closewin1" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <input type="text" required class="form-control daterangerreport1" placeholder="Период" />
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 @endsection
