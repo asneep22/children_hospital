@@ -176,6 +176,7 @@
                   <input type="hidden" name="uchastok_id" value="{{isset($_GET['uchastok_id']) ? $_GET['uchastok_id']:''}}">
                   <input type="hidden" name="roddom_id" value="{{isset($_GET['roddom_id']) ? $_GET['roddom_id']:''}}">
                   <input type="hidden" name="pol" value="{{isset($_GET['pol']) ? $_GET['pol']:''}}">
+                  <input type="hidden" name="bolezn" value="{{isset($_GET['bolezn']) ? $_GET['bolezn']:''}}">
                   <button type="submit" class="btn btn-sm btn-success">Найти</button>
                 </div>
               </form>
@@ -208,7 +209,14 @@
                 <option value="2" {{isset($_GET['pol'])?( $_GET['pol'] == 2?'selected':''):""}}>Жен</option>
               </select>
             </th>
-            <th></th>
+            <th>
+            <select class="form-select form-select-sm selectform" data-field="bolezn">
+                <option value="">Укажите болезнь</option>
+                @foreach($bolezns as $bolezn)
+                <option value="{{$bolezn->id}}" {{isset($_GET['bolezn'])?( $_GET['bolezn'] == $bolezn->id?'selected':''):""}}>{{$bolezn->pname}}</option>
+                @endforeach
+              </select>
+            </th>
             <th><input type="text" class="form-control form-control-sm daterange" data-field="date_add" placeholder="Период" value="{{isset($_GET['date_add']) ? $_GET['date_add']:''}}" /></th>
 
           </tr>

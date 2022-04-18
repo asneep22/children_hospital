@@ -18,10 +18,10 @@ class pacient_stacionar extends Model
     'recommend'
   ];
 
-  protected $casts = [
-    'date_in' => 'date:d/m/Y',
-    'date_ou' => 'date:d/m/Y',
-];
+//   protected $casts = [
+//     'date_in' => 'date:d/m/Y',
+//     'date_ou' => 'date:d/m/Y',
+// ];
 
   public function pacients(){
       return $this->belongsTo(pacients::class, 'pacients_id');

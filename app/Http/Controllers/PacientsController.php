@@ -17,7 +17,8 @@ use App\Models\Policlinic;
 
 class PacientsController extends Controller
 {
-  public function report_analiz($d1, $d2){
+  public function report_analiz($d1, $d2)
+  {
     $policlinic = Policlinic::first();
     $wordTest = new \PhpOffice\PhpWord\PhpWord();
     $wordTest->setDefaultFontName('Times New Roman');
@@ -26,10 +27,59 @@ class PacientsController extends Controller
     $d11 = date("d.m.Y", strtotime($d1));
     $d22 = date("d.m.Y", strtotime($d2));
     $res = pacients::whereBetween("birthday", [$d1, $d2])->count();
-    $res1 = pacients::whereBetween("birthday", [$d1, $d2])->whereHas('stacionars',function ( $query) use($d1,$d2) {
-      $query->whereBetween('date_in', [$d1,$d2])->orWhereBetween('date_ou', [$d1,$d2]);
-  })->count();
-  // return $res1;
+    $res1 = pacients::whereBetween("birthday", [$d1, $d2])->whereHas('stacionars', function ($query) use ($d1, $d2) {
+      $query->whereBetween('date_in', [$d1, $d2]);
+    })->count();
+    $res2 = pacients::whereBetween("birthday", [$d1, $d2])->whereHas('stacionars', function ($query) use ($d1, $d2) {
+      $query->where("vid", "stacionar")->whereBetween('date_in', [$d1, $d2]);
+    })->count();
+    //
+    $res3 = pacients::with("stacionars")->get();
+    // return $res3;
+    $ds[0] = 0;
+    $ds[1] = 0;
+    $dl[0] = 0;
+    $ds[2] = 0;
+    $dl[1] = 0;
+    $dl[2] = 0;
+    foreach ($res3 as $res3) {
+
+
+      // return $bd;
+      // return $res3->stacionars;
+      if (count($res3->stacionars) > 0) {
+        $stac = json_decode($res3->stacionars);
+        $s = $stac[0];
+        $bd = $res3->birthday;
+        if ($s->vid == "roddom") {
+
+          $date1 = strtotime($bd);
+          $date2 = strtotime($s->date_in);
+          $diff = abs($date2 - $date1);
+          $cd = floor($diff / 60 / 60 / 24);
+          if ($cd < 11) $ds[0]++;
+          if ($cd > 10 && $cd < 21) $ds[1]++;
+          if ($cd > 20 && $cd < 31) $ds[2]++;
+        }
+        foreach ($stac as $st) {
+          if ($st->vid != "roddom") {
+            $date1 = strtotime($bd);
+            $date2 = strtotime($st->date_in);
+            $diff = abs($date2 - $date1);
+            $cd = floor($diff / 60 / 60 / 24);
+            if ($cd < 11) $dl[0]++;
+            if ($cd > 10 && $cd < 21) $dl[1]++;
+            if ($cd > 20 && $cd < 31) $dl[2]++;
+          }
+        }
+
+        // foreach($res3->stacionars as $val){
+
+        //   return $res3->stacionars;
+        // }
+      }
+    }
+
 
     $section->addText("Анализ заболеваемости новорожденных {$policlinic->pname}, {$policlinic->address} в период {$d11} по {$d22}",  ['bold' => true], ['bold' => true, 'align' => 'center']);
 
@@ -37,18 +87,52 @@ class PacientsController extends Controller
     $table = $section->addTable();
     $table->addRow();
     $table->addCell()->addText("Всего родилось детей     ");
-    $table->addCell()->addText(" ".$res." ", ['bold' => true,'underline' => 'single']);
+    $table->addCell()->addText(" " . $res . " ", ['bold' => true, 'underline' => 'single']);
     $table->addRow();
     $table->addCell()->addText("Из них заболело (абс. число - %) -");
-    $table->addCell()->addText($res1." (".(round(($res1/$res*100),2))."%)");
+    $table->addCell()->addText($res1 . " (" . (round(($res1 / $res * 100), 2)) . "%)", ['bold' => true, 'underline' => 'single']);
+    $table->addRow();
+    $table->addCell()->addText("Госпитализированы (абс. число - %) -");
+    $table->addCell()->addText($res2 . " (" . (round(($res2 / $res * 100), 2)) . "%)", ['bold' => true, 'underline' => 'single']);
+    $section->addTextBreak(1);
+    $section->addText("Распределение заболевших новорожденных по возрасту",  ['bold' => true], ['bold' => true, 'align' => 'center']);
+    $table = $section->addTable([
+      'borderSize' => 1, 'borderColor' => '000000', 'unit' => \PhpOffice\PhpWord\Style\Table::WIDTH_PERCENT,
+      'width' => 100 * 50
+    ]);
+    $table->addRow();
+    $table->addCell()->addText("До 10 дней", ['bold' => true]);
+    $table->addCell()->addText("10-20 дней", ['bold' => true]);
+    $table->addCell()->addText("20-30 дней", ['bold' => true]);
+    $table->addRow();
+    $table->addCell()->addText($ds[0], ['bold' => true]);
+    $table->addCell()->addText($ds[1], ['bold' => true]);
+    $table->addCell()->addText($ds[2], ['bold' => true]);
+
+    $section->addTextBreak(1);
+    $section->addText("После выписки из родильного дома",  ['bold' => true], ['bold' => true, 'align' => 'center']);
+    $table = $section->addTable([
+      'borderSize' => 1, 'borderColor' => '000000', 'unit' => \PhpOffice\PhpWord\Style\Table::WIDTH_PERCENT,
+      'width' => 100 * 50
+    ]);
+    $table->addRow();
+    $table->addCell()->addText("До 10 дней", ['bold' => true]);
+    $table->addCell()->addText("10-20 дней", ['bold' => true]);
+    $table->addCell()->addText("20-30 дней", ['bold' => true]);
+    $table->addRow();
+    $table->addCell()->addText($dl[0], ['bold' => true]);
+    $table->addCell()->addText($dl[1], ['bold' => true]);
+    $table->addCell()->addText($dl[2], ['bold' => true]);
+    $section->addTextBreak(2);
+    $section->addText('Зав. детским поликлиническим отделением________________________'  . $policlinic->zavedname);
 
     $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($wordTest, 'Word2007');
     try {
-      $objectWriter->save(storage_path('Анализ заболеваемости новорожденных '.$d11.' - '.$d22.'.docx'));
+      $objectWriter->save(storage_path('Анализ заболеваемости новорожденных ' . $d11 . ' - ' . $d22 . '.docx'));
     } catch (Exception $e) {
     }
 
-    return response()->download(storage_path('Анализ заболеваемости новорожденных '.$d11.' - '.$d22.'.docx'))->deleteFileAfterSend(true);
+    return response()->download(storage_path('Анализ заболеваемости новорожденных ' . $d11 . ' - ' . $d22 . '.docx'))->deleteFileAfterSend(true);
   }
   public function report_nedo($d1, $d2)
   {
@@ -125,9 +209,9 @@ class PacientsController extends Controller
       $table->addCell()->addText(date("d.m.Y", strtotime($v->birthday)));
       $table->addCell()->addText($v->address);
       $table->addCell()->addText($v->ves);
-      $ve=floatval($v->gestaci);
-      $drob=fmod($ve,1)>0?" и ".(fmod($ve,1)*10)."/7 нед":"";
-      $table->addCell()->addText(floor($ve)." нед.".$drob);
+      $ve = floatval($v->gestaci);
+      $drob = fmod($ve, 1) > 0 ? " и " . (fmod($ve, 1) * 10) . "/7 нед" : "";
+      $table->addCell()->addText(floor($ve) . " нед." . $drob);
       $vas = [];
       foreach (json_decode($v->bolezn) as $ve) {
         $vas[] = $boleznd[$ve->bolezn_id]["pname"];
@@ -159,9 +243,9 @@ class PacientsController extends Controller
       $table->addCell()->addText(date("d.m.Y", strtotime($v->birthday)));
       $table->addCell()->addText($v->address);
       $table->addCell()->addText($v->ves);
-      $ve=floatval($v->gestaci);
-      $drob=fmod($ve,1)>0?" и ".(fmod($ve,1)*10)."/7 нед":"";
-      $table->addCell()->addText(floor($ve)." нед.".$drob);
+      $ve = floatval($v->gestaci);
+      $drob = fmod($ve, 1) > 0 ? " и " . (fmod($ve, 1) * 10) . "/7 нед" : "";
+      $table->addCell()->addText(floor($ve) . " нед." . $drob);
       $vas = [];
       foreach (json_decode($v->bolezn) as $ve) {
         $vas[] = $boleznd[$ve->bolezn_id]["pname"];
@@ -189,9 +273,9 @@ class PacientsController extends Controller
       $table->addCell()->addText(date("d.m.Y", strtotime($v->birthday)));
       $table->addCell()->addText($v->address);
       $table->addCell()->addText($v->ves);
-      $ve=floatval($v->gestaci);
-      $drob=fmod($ve,1)>0?" и ".(fmod($ve,1)*10)."/7 нед":"";
-      $table->addCell()->addText(floor($ve)." нед.".$drob);
+      $ve = floatval($v->gestaci);
+      $drob = fmod($ve, 1) > 0 ? " и " . (fmod($ve, 1) * 10) . "/7 нед" : "";
+      $table->addCell()->addText(floor($ve) . " нед." . $drob);
       $vas = [];
       foreach (json_decode($v->bolezn) as $ve) {
         $vas[] = $boleznd[$ve->bolezn_id]["pname"];
@@ -219,9 +303,9 @@ class PacientsController extends Controller
       $table->addCell()->addText(date("d.m.Y", strtotime($v->birthday)));
       $table->addCell()->addText($v->address);
       $table->addCell()->addText($v->ves);
-      $ve=floatval($v->gestaci);
-      $drob=fmod($ve,1)>0?" и ".(fmod($ve,1)*10)."/7 нед":"";
-      $table->addCell()->addText(floor($ve)." нед.".$drob);
+      $ve = floatval($v->gestaci);
+      $drob = fmod($ve, 1) > 0 ? " и " . (fmod($ve, 1) * 10) . "/7 нед" : "";
+      $table->addCell()->addText(floor($ve) . " нед." . $drob);
       $vas = [];
       foreach (json_decode($v->bolezn) as $ve) {
         $vas[] = $boleznd[$ve->bolezn_id]["pname"];
@@ -231,11 +315,11 @@ class PacientsController extends Controller
 
     $objectWriter = \PhpOffice\PhpWord\IOFactory::createWriter($wordTest, 'Word2007');
     try {
-      $objectWriter->save(storage_path('Отчет по перинатальной патологии '.$d11.' - '.$d22.'.docx'));
+      $objectWriter->save(storage_path('Отчет по перинатальной патологии ' . $d11 . ' - ' . $d22 . '.docx'));
     } catch (Exception $e) {
     }
 
-    return response()->download(storage_path('Отчет по перинатальной патологии '.$d11.' - '.$d22.'.docx'))->deleteFileAfterSend(true);
+    return response()->download(storage_path('Отчет по перинатальной патологии ' . $d11 . ' - ' . $d22 . '.docx'))->deleteFileAfterSend(true);
   }
 
   public function sved($id)
@@ -257,17 +341,20 @@ class PacientsController extends Controller
     $birthday = isset($request->birthday) ?  explode(' - ', $request->birthday) : '';
     $uchastok_id = $request->uchastok_id ?? '';
     $roddom_id = $request->roddom_id ?? '';
+    $bolezn = $request->bolezn ?? '';
     $pol = $request->pol ?? "";
 
-    $roddoms = roddom::all();
-    $uchastoks = uchastok::all();
+    $roddoms = roddom::get()->sortBy("pname");
+    $uchastoks = uchastok::get()->sortBy("pname");
+    $bolezns = bolezn::get()->sortBy("pname");
     $check = isset($request->sort_field) ?  explode('|', $request->sort_field) : ['id', 'asc'];
     $pacients1 = pacients::with(['roddom', 'uchastok'])
-      ->where(function ($query) use ($date_add, $birthday, $search, $uchastok_id, $roddom_id, $pol) {
+      ->where(function ($query) use ($date_add, $birthday, $search, $uchastok_id, $roddom_id, $pol,$bolezn) {
         if ($search) {
           $query->where('lastname', 'LIKE', '%' . $search . '%');
           $query->orWhere('pname', 'LIKE', '%' . $search . '%');
           $query->orWhere('surname', 'LIKE', '%' . $search . '%');
+          $query->orWhere('recommend', 'LIKE', '%' . $search . '%');
         }
         if ($date_add) {
           $query->whereBetween('date_add', [date('Y-m-d', strtotime($date_add[0])), date('Y-m-d', strtotime($date_add[1]))]);
@@ -283,6 +370,14 @@ class PacientsController extends Controller
         }
         if ($pol) {
           $query->where('pol', $pol == 2 ? 0 : 1);
+        }
+        if ($pol) {
+          $query->where('pol', $pol == 2 ? 0 : 1);
+        }
+        if($bolezn){
+          $query->whereHas('bolezns', function ($q) use($bolezn) {
+            return $q->where('bolezn_id', '=', $bolezn);
+        });
         }
       })
       ->orderBy($check[0], $check[1])
@@ -301,7 +396,7 @@ class PacientsController extends Controller
     //   ->orderBy($check[0], $check[1])
     //   ->paginate(25);
 
-    return view('pages.pacients', ['pacients1' => $pacients1, 'roddoms' => $roddoms, 'uchastoks' => $uchastoks, 'check' => $check]);
+    return view('pages.pacients', ['pacients1' => $pacients1, 'roddoms' => $roddoms, 'bolezns' => $bolezns, 'uchastoks' => $uchastoks, 'check' => $check]);
   }
 
   public function AddPacient(PacientRequest $req)

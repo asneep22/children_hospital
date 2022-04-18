@@ -53,6 +53,12 @@ public function bolezn(){
   public function stacionars(){
       return $this->hasMany(pacient_stacionar::class);
   }
+  // public function stacionarsone(){
+  //     return $this->hasOne(pacient_stacionar::class)->oldest();
+  // }
+  public function bolezns(){
+    return $this->hasManyThrough(pacient_bolezn::class,pacient_stacionar::class);
+  }
 
   public function vacine(){
       return $this->hasMany(vacines::class);
