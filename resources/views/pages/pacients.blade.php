@@ -60,66 +60,99 @@
               <x-modal modalId="addPacient" modalTitle="Добавить пациента" btnClass="btn-success btn-sm w-100" btnText="+">
                 <form class="" action="{{Route('AddPacient')}}" method="post">
                   @csrf
-                  <div class="mb-3">
-                    <label for="lastname">Фамилия</label>
-                    <input type="text" id="lastname" name="lastname" class="form-control">
-                  </div>
-                  <div class="mb-3">
-                    <label for="pname">Имя</label>
-                    <input type="text" id="pname" name="pname" class="form-control">
-                  </div>
-                  <div class="mb-3">
-                    <label for="surname">Отчество</label>
-                    <input type="text" id="surname" name="surname" class="form-control">
-                  </div>
-                  <div class="mb-3">
-                    <label for="birthday">Дата рождения</label>
-                    <input type="date" id="birthday" name="birthday" class="form-control">
-                  </div>
-                  <div class="mb-3">
-                    <label for="uchastok_id">Участок</label>
-                    <select class="js-select" name="uchastok_id">
-                      @foreach($uchastoks as $uchastok)
-                      <option value="{{$uchastok->id}}">{{$uchastok->pname}}</option>
-                      @endforeach
-                    </select>
-                  </div>
-                  <div class="mb-3">
-                    <label for="roddom_id">Роддом</label>
-                    <select class="js-select" name="roddom_id">
-                      @foreach($roddoms as $roddom)
-                      <option value="{{$roddom->id}}">{{$roddom->pname}}</option>
-                      @endforeach
-                    </select>
-                  </div>
-                  <div class="d-flex mb-3">
-                    <div class="w-50">
-                      <label for="rost">Рост</label>
-                      <input type="text" id="rost" name="rost" class="form-control">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="lastname">Фамилия</label>
+                        <input type="text" id="lastname" required name="lastname" class="form-control">
+                      </div>
                     </div>
-                    <div class="mx-2 w-50">
-                      <label for="ves">Вес</label>
-                      <input type="text" id="ves" name="ves" class="form-control">
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="pname">Имя</label>
+                        <input type="text" id="pname" required name="pname" class="form-control">
+                      </div>
                     </div>
-                    <div class="mx-2 w-50">
-                      <label for="gestaci">Неделя рождения</label>
-                      <input type="text" id="gestaci" name="gestaci" class="form-control">
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="surname">Отчество</label>
+                        <input type="text" id="surname" required name="surname" class="form-control">
+                      </div>
                     </div>
                   </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="birthday">Дата рождения</label>
+                        <input type="date" id="birthday" required name="birthday" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="uchastok_id">Участок</label>
+                        <select class="js-select" required name="uchastok_id">
+                          @foreach($uchastoks as $uchastok)
+                          <option value="{{$uchastok->id}}">{{$uchastok->pname}}</option>
+                          @endforeach
 
-                  <div class="mb-3">
-                    <label for="date_add">Дата поступления</label>
-                    <input type="date" name="date_add" class="form-control">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="roddom_id">Роддом</label>
+                        <select class="js-select" required name="roddom_id">
+                          @foreach($roddoms as $roddom)
+                          <option value="{{$roddom->id}}">{{$roddom->pname}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                    </div>
                   </div>
-
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="rost">Рост</label>
+                        <input type="number" id="rost" required name="rost" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="ves">Вес</label>
+                        <input type="number" id="ves" required name="ves" class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="gestaci">Неделя рождения</label>
+                        <input type="number" id="gestaci" required name="gestaci" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="mb-3">
+                        <label for="date_add">Дата поступления</label>
+                        <input type="date" name="date_add" required class="form-control">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="pol">Пол</label>
+                      <select name="pol" id="pol" class="form-select">
+                        <option value="1">Мальчик</option>
+                        <option value="0">Девочка</option>
+                      </select>
+                    </div>
+                  </div>
                   <div class="mb-3">
                     <label for="birthday">Рекомендации</label>
                     <textarea id="recommend" rows="3" name="recommend" class="form-control"></textarea>
                   </div>
 
                   <div class="modal-footer p-0">
-                    <button type="submit" class="btn btn-success">Сохранить</button>
                     <button type="button" class="btn btn-secondary m-0" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-success">Сохранить</button>
+
                   </div>
 
 

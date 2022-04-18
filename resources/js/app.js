@@ -10,26 +10,38 @@ $(document).ready(function () {
 
   $('.js-select').select2({
     tags: true,
+    theme: "bootstrap-5",
     language: "ru",
-    dropdownParent: document.body,
+    // dropdownParent: document.body,
+    dropdownParent: $('.modal-content')
   });
 
-  $('.modal').on('shown.bs.modal', function () {
-    $(this).find('.js-select').select2({
-      tags: true,
-      dropdownParent: $(this).find('.modal-content'),
-      language: "ru",
-      dropdownParent: document.body,
-    });
-  
-    $('.modal').on('shown.bs.modal', function () {
-      $(this).find('.js-select').select2({
-        tags: true,
-        dropdownParent: $(this).find('.modal-content'),
-        language: "ru",
-      });
-    });
+  //удаляем поля которые пустые из GET
+  $("#search").on("submit",function()
+  {
+    $(this).find(":input").filter(function(){ return !this.value; }).attr("disabled", "disabled");
+      return true; 
   });
+
+//   $('.modal').on('shown.bs.modal', function () {
+//     $(this).find('.js-select').select2({
+//       tags: true,
+//       theme: "bootstrap-5",
+//       dropdownParent: $(this).find('.modal-content'),
+//       language: "ru",
+//       dropdownParent: document.body,
+//     });
+  
+//     $('.modal').on('shown.bs.modal', function () {
+//       $(this).find('.js-select').select2({
+//         tags: true,
+//         theme: "bootstrap-5",
+//         dropdownParent: $(this).find('.modal-content'),
+//         language: "ru",
+//       });
+//     });
+//   });
+
     $('.forlink').on("click",function(){
       window.location.href=$(this).prop("href");
     });
