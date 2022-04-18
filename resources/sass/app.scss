@@ -10,7 +10,12 @@
 @import 'select2';
 @import "select2-bootstrap-5-theme";
 @import 'daterangepicker';
+@import 'material-icons';
 
 body .select2-container--default .select2-selection--multiple .select2-selection__choice{
     display: block;
 }
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; 
+ }

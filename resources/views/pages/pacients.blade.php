@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid mt-3">
   <div class="row">
     <div class="table-responsive">
       <table class="table table-sm table-bordered">
