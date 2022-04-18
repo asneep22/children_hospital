@@ -130,18 +130,24 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="mb-3">
                         <label for="date_add">Дата поступления</label>
-                        <input type="date" name="date_add" required class="form-control">
+                        <input type="date" name="date_add" id="date_add" required class="form-control">
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <label for="pol">Пол</label>
                       <select name="pol" id="pol" class="form-select">
                         <option value="1">Мальчик</option>
                         <option value="0">Девочка</option>
                       </select>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="mb-3">
+                        <label for="address">Адрес</label>
+                        <input type="text" name="address" id="address" class="form-control">
+                      </div>
                     </div>
                   </div>
                   <div class="mb-3">
@@ -257,6 +263,10 @@
                         <tr>
                           <th>Дата рождения</th>
                           <td>{{$pacient->birthday->format('d.m.Y')}}</td>
+                        </tr>
+                        <tr>
+                          <th>Адрес</th>
+                          <td>{{$pacient->address}}</td>
                         </tr>
                       </table>
 

@@ -16,6 +16,7 @@ class pacients extends Model
     'pname',
     'surname',
     'birthday',
+    'address',
     'uchastok_id',
     'rost',
     'ves',

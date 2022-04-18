@@ -18,6 +18,7 @@ return new class extends Migration
       $table->string('lastname');
       $table->string('pname');
       $table->string('surname');
+      $table->string('address')->nullable();
       $table->Date('birthday');
       $table->foreignId('uchastok_id')->constrained('uchastoks')->onDelete('cascade')->onUpdate('cascade');
       $table->integer('rost');
@@ -31,7 +32,7 @@ return new class extends Migration
       $table->boolean('gepatit')->nullable();
       $table->boolean('recepient')->nullable();
       $table->boolean('gruppasvs')->nullable();
-      $table->string('recommend')->nullable();
+      $table->mediumText('recommend')->nullable();
       $table->date('date_add');
       $table->timestamps();
     });
