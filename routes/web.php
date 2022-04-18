@@ -32,6 +32,7 @@ Route::get('/', [AuthController::class, 'AuthPage'])->name('AuthPage');
 Route::post('/tryAutorization', [AuthController::class, 'TryAuth'])->name('TryAuth');
 Route::get('/logout', [AuthController::class, 'Logout'])->name('Logout');
 Route::get('/pacientone/{id}', [PacientsController::class, 'sved'])->name('sved');
+Route::get('/report_nedo/{d1}/{d2}', [PacientsController::class, 'report_nedo'])->name('report_nedo');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/uchastki', [UchastokController::class, 'UchastkiPage'])->name('UchastkiPage');

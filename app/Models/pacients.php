@@ -38,6 +38,10 @@ class pacients extends Model
     'date_add'=> 'datetime:d/m/Y',
 ];
 
+public function bolezn(){
+  return $this->hasManyThrough(pacient_bolezn::class,pacient_stacionar::class);
+} 
+
   public function uchastok(){
       return $this->belongsTo(uchastok::class);
   }
