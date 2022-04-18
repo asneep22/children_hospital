@@ -10,7 +10,7 @@ class bolezn extends Model
     use HasFactory;
 
     protected $fillable = [
-      'pname',
+      'pname', 'q'
     ];
 
     public function bolezn(){

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('bolezns', function (Blueprint $table) {
             $table->id();
+            $table->boolean('q')->default(false);
             $table->string('pname');
             $table->timestamps();
         });
