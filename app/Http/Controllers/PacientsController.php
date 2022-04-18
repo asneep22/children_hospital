@@ -35,6 +35,18 @@ class PacientsController extends Controller
       $nedo=pacients::with("bolezn")->whereBetween("date_add",[$d1,$d2])->where('gestaci',"<",37)->get();
       $enmt=pacients::with("bolezn")->whereBetween("date_add",[$d1,$d2])->where('ves',"<",1000)->get();
       $onmt=pacients::with("bolezn")->whereBetween("date_add",[$d1,$d2])->whereBetween('ves',[1000,1500])->get();
+     
+     
+      $q=pacients::with("bolezn")->whereBetween("date_add",[$d1,$d2])->get()->keyBy("id");
+      // return $q;
+      $qa=[];
+      foreach($q as $q){
+        foreach(json_decode($q["bolezn"]) as $val){
+          if($boleznd[$val->bolezn_id]["q"])$qa[$q->id]=$q;
+            // return $val;
+        }
+      }
+      
 
    
       // return $bolezn;
@@ -67,7 +79,36 @@ foreach($bolezn as $n=>$v){
 
       // $myTextElement->setFontStyle($fontStyle);
 
-      $section->addText('Ф.И.О. детей с врожденной патологией (класс Q), дата рождения, диагноз: ???');
+      $section->addText("Ф.И.О. детей с врожденной патологией (класс Q)",  ['bold' => true], ['bold' => true,'align' => 'center']);
+      $table = $section->addTable(['borderSize' => 1, 'borderColor' => '000000','unit' => \PhpOffice\PhpWord\Style\Table::WIDTH_PERCENT,
+      'width' => 100 * 50]);
+      $table->addRow();
+      $table->addCell()->addText("№",['bold' => true]);
+      $table->addCell()->addText("ФИО",['bold' => true]);
+      $table->addCell()->addText("Дата рождения",['bold' => true]);
+      $table->addCell()->addText("Адрес",['bold' => true]);
+      $table->addCell()->addText("Вес",['bold' => true]);
+      $table->addCell()->addText("Срок гестации",['bold' => true]);
+      $table->addCell()->addText("Диагноз",['bold' => true]);
+      foreach($qa as $n=>$v){
+        $table->addRow();
+        $table->addCell()->addText($n+1);
+        $table->addCell()->addText($v->lastname." ".$v->pname." ".$v->surname);
+        $table->addCell()->addText(date("d.m.Y",strtotime($v->birthday)));
+        $table->addCell()->addText($v->address);
+        $table->addCell()->addText($v->ves);
+        
+        $table->addCell()->addText($v->gestaci);
+        $vas=[];
+        foreach(json_decode($v->bolezn) as $ve)
+        {
+          $vas[] = $boleznd[$ve->bolezn_id]["pname"];
+        }
+        $table->addCell()->addText(implode(", ",$vas));
+      }
+
+      $section->addText("");
+      $section->addText("");
       $section->addText('Зав. детским поликлиническим отделением________________________'  . $policlinic->zavedname);
       $section->addPageBreak();
       $section->addText("НЕДОНОШЕННЫЕ:",['bold' => true,'underline' => 'single'],['align' => 'center']);
