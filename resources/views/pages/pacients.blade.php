@@ -182,7 +182,7 @@
               </form>
             </th>
             <th>
-              <input type="text" class="form-control form-control-sm daterange" data-field="birthday" placeholder="Дата рождения" value="{{isset($_GET['birthday']) ? $_GET['birthday']:''}}" />
+              <input type="text" class="form-control form-control-sm dateranger" data-field="birthday" placeholder="Дата рождения" value="{{isset($_GET['birthday']) ? $_GET['birthday']:''}}" />
             </th>
             <th>
               <select class="form-select form-select-sm selectform" data-field="uchastok_id">
@@ -217,7 +217,7 @@
                 @endforeach
               </select>
             </th>
-            <th><input type="text" class="form-control form-control-sm daterange" data-field="date_add" placeholder="Период" value="{{isset($_GET['date_add']) ? $_GET['date_add']:''}}" /></th>
+            <th><input type="text" class="form-control form-control-sm dateranger" data-field="date_add" placeholder="Период" value="{{isset($_GET['date_add']) ? $_GET['date_add']:''}}" /></th>
 
           </tr>
         </thead>

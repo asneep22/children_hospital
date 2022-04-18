@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Seblhaire\DateRangePickerHelper\DateRangePickerHelper;
-
 use Illuminate\Http\Request;
 
 use App\Models\roddom;
@@ -14,6 +12,7 @@ use App\Models\pacients;
 use App\Http\Resources\GetForUserResource;
 use App\Models\bolezn;
 use App\Models\Policlinic;
+use Illuminate\Support\Facades\Auth;
 
 class PacientsController extends Controller
 {
@@ -334,6 +333,10 @@ class PacientsController extends Controller
   }
   public function PacientsPage(Request $request)
   {
+    if(!Auth::check()){
+      return view('pages.autoriz');
+      }
+    
 
     $search = $request->search ?? '';
 

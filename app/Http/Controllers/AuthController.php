@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function AuthPage(){
-      return view('pages.autoriz');
-    }
 
     public function TryAuth(AuthReq $req){
       if(Auth::attempt($req->only(['login', 'password']))){
@@ -24,6 +21,6 @@ class AuthController extends Controller
 
     public function Logout(){
       Auth::logout();
-      return redirect()->route('AuthPage');
+      return redirect()->route('PacientsPage');
     }
 }

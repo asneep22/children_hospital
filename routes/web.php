@@ -28,7 +28,7 @@ Route::get('/token', function (Request $request) {
 
   $token = csrf_token();
 });
-Route::get('/', [AuthController::class, 'AuthPage'])->name('AuthPage');
+Route::get('/', [PacientsController::class, 'PacientsPage'])->name('PacientsPage');
 Route::post('/tryAutorization', [AuthController::class, 'TryAuth'])->name('TryAuth');
 Route::get('/logout', [AuthController::class, 'Logout'])->name('Logout');
 Route::get('/pacientone/{id}', [PacientsController::class, 'sved'])->name('sved');
@@ -48,7 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/bolezni/del/{id}', [BolezniController::class, 'DeleteBolezn'])->name('DeleteBolezn');
     Route::get('/vacines/del/{id}', [VacinesConroller::class, 'DeleteVacine'])->name('DeleteVacine');
     Route::get('/staciionars/del/{id}', [StacionarController::class, 'DeleteStacionar'])->name('DeleteStacionar');
-    Route::get('/pacient', [PacientsController::class, 'PacientsPage'])->name('PacientsPage');
+    // Route::get('/pacient', [PacientsController::class, 'PacientsPage'])->name('PacientsPage');
 
 });
 
