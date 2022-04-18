@@ -119,13 +119,13 @@
                     <div class="col-md-4">
                       <div class="mb-3">
                         <label for="ves">Вес</label>
-                        <input type="number" id="ves" required name="ves" class="form-control">
+                        <input type="number" id="ves" step="0.1" required name="ves" class="form-control">
                       </div>
                     </div>
                     <div class="col-md-4">
                       <div class="mb-3">
                         <label for="gestaci">Неделя рождения</label>
-                        <input type="number" id="gestaci" required name="gestaci" class="form-control">
+                        <input type="number" id="gestaci" step="0.1" required name="gestaci" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -151,7 +151,7 @@
                     </div>
                   </div>
                   <div class="mb-3">
-                    <label for="birthday">Рекомендации</label>
+                    <label for="recommend">Рекомендации</label>
                     <textarea id="recommend" rows="3" name="recommend" class="form-control"></textarea>
                   </div>
 

@@ -24,7 +24,7 @@ return new class extends Migration
       $table->integer('rost');
       $table->float('ves');
       $table->boolean('pol')->default(false);
-      $table->integer('gestaci');
+      $table->float('gestaci');
       $table->foreignId('roddom_id')->constrained('roddoms')->onDelete('cascade')->onUpdate('cascade');
       $table->boolean('skrinning')->nullable();
       $table->boolean('audio')->nullable();
