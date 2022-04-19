@@ -40,6 +40,60 @@ $(function () {
     
         return date;
     };
+    
+    $("body").on("click",".ads",function(){
+        $("#userid").val('');
+    });
+
+    $("body").on("click",".editpacient",function(){
+    
+        axios.get(`/fulldata/${$(this).data("id")}`).then(function (response) {
+           let data=response.data;
+           $("#lastname").val(data.lastname);
+           $("#pname").val(data.pname);
+           $("#surname").val(data.surname);
+           $("#recommend").val(data.recommend);
+           $("#rost").val(data.rost);
+           $("#ves").val(data.ves);
+           $("#gestaci").val(data.gestaci);
+           $("#address").val(data.address);
+           $("#userid").val(data.id);
+           
+           $("#birthday").val(data.birthday1);
+           $("#date_add").val(data.date_add1);
+           $("#uchastok_id").val(data.uchastok_id).trigger('change');
+           $("#roddom_id").val(data.roddom_id).trigger('change');
+           $("#vacines").val(data.vac).trigger('change');
+           if(data.audio)
+           $('input[name="audio"]').prop("checked",true);
+           if(data.vich)
+           $('input[name="vich"]').prop("checked",true);
+           if(data.gepatit)
+           $('input[name="gepatit"]').prop("checked",true);
+           if(data.recepient)
+           $('input[name="recepient"]').prop("checked",true);
+           if(data.scrinning)
+           $('input[name="scrinning"]').prop("checked",true);
+           if(data.gruppasvs)
+           $('input[name="gruppasvs"]').prop("checked",true);
+           $("#tableforperiod #inp").html('');
+           $("#tableforperiod tbody").html('');
+
+           data.st.forEach(e=>{
+            $("#tableforperiod #inp").append(`<input id="equal${$("#tableforperiod tbody tr").length}" type="hidden" name="di[]" value='${JSON.stringify(e)}'>`)
+            $("#tableforperiod tbody").append(`<tr><td>${e.vid}</td><td>${e.pac_stacionar_id}</td><td>${e.date_in1} - ${e.date_ou1}</td><td>${e.pac_diagnoz.join(", ")}</td><td>${e.pac_recommends}</td><td><button type="button" class="btn btn-sm btn-danger removetr" data-line="${$("#tableforperiod tbody tr").length}">-</td></tr>`);
+             
+
+           })
+            // console.log(response);
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        }).then(function () { // always executed
+        });
+        // $("#tableforperiod #inp").find("#equal"+$(this).data("line")).remove();
+        // $(this).parent().parent().remove();
+    });
 
     $("#successaddperiod").on("click",function(){
         let vid=$("#profile #vid").val();

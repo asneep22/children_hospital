@@ -32,10 +32,10 @@ Route::get('/token', function (Request $request) {
 Route::get('/', [PacientsController::class, 'PacientsPage'])->name('PacientsPage');
 Route::post('/tryAutorization', [AuthController::class, 'TryAuth'])->name('TryAuth');
 Route::get('/logout', [AuthController::class, 'Logout'])->name('Logout');
-Route::get('/pacientone/{id}', [PacientsController::class, 'sved'])->name('sved');
-Route::get('/report_nedo/{d1}/{d2}', [PacientsController::class, 'report_nedo'])->name('report_nedo');
-Route::get('/report_analiz/{d1}/{d2}', [PacientsController::class, 'report_analiz'])->name('report_analiz');
+
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/pacientone/{id}', [PacientsController::class, 'sved'])->name('sved');
+    Route::get('/fulldata/{id}', [PacientsController::class, 'full'])->name('full');
 
     // Route::get('/uchastki', [UchastokController::class, 'UchastkiPage'])->name('UchastkiPage');
     // Route::get('/uchastki1',[DataController::class, 'uchastki']);
@@ -49,7 +49,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Route::get('/bolezni/del/{id}', [BolezniController::class, 'DeleteBolezn'])->name('DeleteBolezn');
     // Route::get('/vacines/del/{id}', [VacinesConroller::class, 'DeleteVacine'])->name('DeleteVacine');
     // Route::get('/staciionars/del/{id}', [StacionarController::class, 'DeleteStacionar'])->name('DeleteStacionar');
-
+    Route::get('/report_nedo/{d1}/{d2}', [PacientsController::class, 'report_nedo'])->name('report_nedo');
+    Route::get('/report_analiz/{d1}/{d2}', [PacientsController::class, 'report_analiz'])->name('report_analiz');
     Route::post('/savepoliclinic', [PoliclinicController::class, 'save'])->name('savepoliclinic');
     Route::post('/saveroddom', [RoddomController::class, 'saveroddom'])->name('saveroddom');
     Route::post('/saveuchastok', [UchastokController::class, 'saveuchastok'])->name('saveuchastok');

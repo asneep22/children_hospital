@@ -21,6 +21,43 @@ use Illuminate\Support\Facades\Auth;
 
 class PacientsController extends Controller
 {
+  public function full($id)
+  {
+    // return $id;
+    $vacines = descr_vacines::all()->keyBy("id")->toArray();
+    $stacionar = stacionar::all()->keyBy("id")->toArray();
+    $bolezn = bolezn::all()->keyBy("id")->toArray();
+    $pacient = pacients::with("vacine", "stacionars")->find($id);
+    $pacient->birthday1 = date("Y-m-d", strtotime($pacient->birthday));
+    $pacient->date_add1 = date("Y-m-d", strtotime($pacient->date_add));
+    if ($pacient->vacine) {
+      $ve = [];
+      foreach (json_decode($pacient->vacine) as $pac) {
+        $ve[] = $vacines[$pac->descr_vacines_id]["pname"];
+      }
+    }
+    if ($pacient->stacionars) {
+      $st = [];
+      foreach (json_decode($pacient->stacionars) as $pac) {
+        $b = pacient_bolezn::where("pacient_stacionar_id", $pac->id)->get();
+        $allb = [];
+        if ($b) {
+          foreach ($b as $b) {
+            $allb[] = $bolezn[$b->bolezn_id]["pname"];
+          }
+        }
+
+        $st[] = [
+          "pac_date_in" => $pac->date_in, "date_in1" => date("d.m.Y", strtotime($pac->date_in)), "pac_date_ou" => $pac->date_ou, "date_ou1" => date("d.m.Y", strtotime($pac->date_ou)),
+          "pac_stacionar_id" => $stacionar[$pac->stacionar_id]["pname"], "vid" => $pac->vid == "inhome" ? "На дому" : ($pac->vid == "stacionar" ? "Стационар" : "Роддом"),
+          "pac_diagnoz" => [$allb], "pac_recommends" => $pac->recommend
+        ];
+      }
+    }
+    $pacient->vac = $ve;
+    $pacient->st = $st;
+    return $pacient;
+  }
   public function report_analiz($d1, $d2)
   {
     $policlinic = Policlinic::first();
@@ -393,19 +430,6 @@ class PacientsController extends Controller
       })
       ->orderBy($check[0], $check[1])
       ->paginate(25);
-    //   $posts = Post::whereHas('comments', function (Builder $query) {
-    //     $query->where('content', 'like', 'code%');
-    // }, '>=', 10)->get();
-
-
-
-
-    // $pacients1 = pacients::with(['roddom', 'uchastok'])
-    //   ->where('lastname', 'LIKE', '%' . $search . '%')
-    //   ->orWhere('pname', 'LIKE', '%' . $search . '%')
-    //   ->orWhere('surname', 'LIKE', '%' . $search . '%')
-    //   ->orderBy($check[0], $check[1])
-    //   ->paginate(25);
 
     return view('pages.pacients', ['pacients1' => $pacients1, 'policlinic' => $policlinic, 'stacionars' => $stacionars, 'vacines' => $vacines, 'roddoms' => $roddoms, 'bolezns' => $bolezns, 'uchastoks' => $uchastoks, 'check' => $check]);
   }
@@ -426,8 +450,12 @@ class PacientsController extends Controller
     )) {
       $req['roddom_id'] = $roddom->id;
     }
-
-    $pac = pacients::create($req->all());
+    if ($req->userid) {
+      $pac = pacients::find($req->userid);
+      $pac->update($req->all());
+    } else {
+      $pac = pacients::create($req->all());
+    }
 
     pacient_stacionar::where('pacients_id', $pac->id)->delete();
     //  return $req->di;

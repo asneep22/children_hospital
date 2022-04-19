@@ -66,8 +66,9 @@
                         <tr>
                             <th>
                                 <x-modal modalId="addPacient" modalTitle="Добавить пациента"
-                                    btnClass="btn-success btn-sm w-100" btnText="+">
+                                    btnClass="btn-success btn-sm w-100 ads" btnText="+">
                                     <form class="" action="{{ Route('AddPacient') }}" method="post">
+                                        <input type="hidden" name="userid" id="userid" value="">
                                         <ul class="nav nav-tabs" id="myTab" role="tablist">
 
                                             <li class="nav-item" role="presentation">
@@ -120,13 +121,15 @@
                                                         <div class="mb-3">
                                                             <label for="birthday">Дата рождения</label>
                                                             <input type="date" id="birthday" required name="birthday"
-                                                                class="form-control" value="{{Carbon\Carbon::now()->format('Y-m-d')}}">
+                                                                class="form-control"
+                                                                value="{{ Carbon\Carbon::now()->format('Y-m-d') }}">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="mb-3">
                                                             <label for="uchastok_id">Участок</label>
-                                                            <select class="js-select" required name="uchastok_id">
+                                                            <select class="js-select" required name="uchastok_id"
+                                                                id="uchastok_id">
                                                                 @foreach ($uchastoks as $uchastok)
                                                                     <option value="{{ $uchastok->id }}">
                                                                         {{ $uchastok->pname }}
@@ -139,7 +142,8 @@
                                                     <div class="col-md-4">
                                                         <div class="mb-3">
                                                             <label for="roddom_id">Роддом</label>
-                                                            <select class="js-select" required name="roddom_id">
+                                                            <select class="js-select" required name="roddom_id"
+                                                                id="roddom_id">
                                                                 @foreach ($roddoms as $roddom)
                                                                     <option value="{{ $roddom->id }}">
                                                                         {{ $roddom->pname }}
@@ -176,8 +180,9 @@
                                                     <div class="col-md-4">
                                                         <div class="mb-3">
                                                             <label for="date_add">Дата поступления</label>
-                                                            <input type="date" name="date_add" id="date_add"  value="{{Carbon\Carbon::now()->format('Y-m-d')}}" required
-                                                                class="form-control">
+                                                            <input type="date" name="date_add" id="date_add"
+                                                                value="{{ Carbon\Carbon::now()->format('Y-m-d') }}"
+                                                                required class="form-control">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
@@ -235,14 +240,15 @@
                                                             </select>
                                                         </div>
 
-                                                      </div>
+                                                    </div>
 
                                                     <div class="mb-2">
                                                         <label for="pac_diagnoz">Диагноз</label>
                                                         <select class="js-select3 w-100" name="diagnoz[]" multiple
                                                             id="pac_diagnoz">
                                                             @foreach ($bolezns as $bolezn)
-                                                                <option value="{{ $bolezn->pname }}">{{ $bolezn->pname }}
+                                                                <option value="{{ $bolezn->pname }}">
+                                                                    {{ $bolezn->pname }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -263,80 +269,87 @@
                                                                 class="form-control">
                                                         </div>
                                                     </div>
-                                                    <button type="button" class="btn btn-success" id="successaddperiod">Добавить</button>
+                                                    <button type="button" class="btn btn-success"
+                                                        id="successaddperiod">Добавить</button>
                                                 </div>
                                                 <div id="tableforperiod">
-                                                  <div id="inp">
+                                                    <div id="inp">
 
-                                                  </div>
-                                                  <table class="table table-sm">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Местонахождение</th>
-                                                            <th>Стационар</th>
-                                                            <th>Периоды болезни</th>
-                                                            <th>Диагнозы</th>
-                                                            <th>Рекомендации</th>
-                                                            <th></th>
-                                                        </tr>
-                                    
-                                                    </thead>
-                                                    <tbody>                                                             
-                                                        
-                                                    </tbody>
-                                                </table>
+                                                    </div>
+                                                    <table class="table table-sm">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Местонахождение</th>
+                                                                <th>Стационар</th>
+                                                                <th>Периоды болезни</th>
+                                                                <th>Диагнозы</th>
+                                                                <th>Рекомендации</th>
+                                                                <th></th>
+                                                            </tr>
+
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="contact" role="tabpanel"
                                                 aria-labelledby="contact-tab">
                                                 <div class="form-group">
 
-                                                
-                                                <label for="vacines">Вакцины</label>
-                                                <select class="js-select2 w-100" name="vacine[]" id="vacines"
-                                                    multiple="multiple">
-                                                    @foreach ($vacines as $vacine)
-                                                        <option value="{{ $vacine->pname }}"
-                                                            {{ $vacine->selected ? 'selected' : '' }}>
-                                                            {{ $vacine->pname }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
 
-                                              </div>
-                                                <div class="form-check">
-                                                  <input type="hidden" name="audio" value="0">
-                                                  <input class="form-check-input" type="checkbox" name="audio" value="1" id="audio" >
-                                                  <label class="form-check-label" for="audio">Аудио</label>
-                                                </div>
-                                      
-                                                <div class="form-check">
-                                                  <input type="hidden" name="vich" value="0">
-                                                  <input class="form-check-input" type="checkbox" name="vich" value="1" id="vich">
-                                                  <label class="form-check-label" for="vich">Вич</label>
-                                                </div>
-                                      
-                                                <div class="form-check">
-                                                  <input type="hidden" name="gepatit" value="0">
-                                                  <input class="form-check-input" type="checkbox" name="gepatit" value="1" id="gepatit">
-                                                  <label class="form-check-label" for="gepatit">Гепатит</label>
-                                                </div>
-                                      
-                                                <div class="form-check">
-                                                  <input type="hidden" name="recepient" value="0">
-                                                  <input class="form-check-input" type="checkbox" name="recepient" value="1" id="recepient">
-                                                  <label class="form-check-label" for="recepient">Рецепиент крови</label>
+                                                    <label for="vacines">Вакцины</label>
+                                                    <select class="js-select2 w-100" name="vacine[]" id="vacines"
+                                                        multiple="multiple">
+                                                        @foreach ($vacines as $vacine)
+                                                            <option value="{{ $vacine->pname }}"
+                                                                {{ $vacine->selected ? 'selected' : '' }}>
+                                                                {{ $vacine->pname }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+
                                                 </div>
                                                 <div class="form-check">
-                                                  <input type="hidden" name="skrininng" value="0">
-                                                  <input class="form-check-input" type="checkbox" name="skrininng" value="1" id="skrininng">
-                                                  <label class="form-check-label" for="skrininng">Скриннинг</label>
+                                                    <input type="hidden" name="audio" value="0">
+                                                    <input class="form-check-input" type="checkbox" name="audio" value="1"
+                                                        id="audio">
+                                                    <label class="form-check-label" for="audio">Аудио</label>
                                                 </div>
-                                      
+
                                                 <div class="form-check">
-                                                  <input type="hidden" name="gruppasvs" value="0">
-                                                  <input class="form-check-input" type="checkbox" name="gruppasvs" value="1" id="gruppasvs">
-                                                  <label class="form-check-label" for="gruppasvs">СВС</label>
+                                                    <input type="hidden" name="vich" value="0">
+                                                    <input class="form-check-input" type="checkbox" name="vich" value="1"
+                                                        id="vich">
+                                                    <label class="form-check-label" for="vich">Вич</label>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input type="hidden" name="gepatit" value="0">
+                                                    <input class="form-check-input" type="checkbox" name="gepatit" value="1"
+                                                        id="gepatit">
+                                                    <label class="form-check-label" for="gepatit">Гепатит</label>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input type="hidden" name="recepient" value="0">
+                                                    <input class="form-check-input" type="checkbox" name="recepient"
+                                                        value="1" id="recepient">
+                                                    <label class="form-check-label" for="recepient">Рецепиент крови</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="hidden" name="skrininng" value="0">
+                                                    <input class="form-check-input" type="checkbox" name="skrininng"
+                                                        value="1" id="skrininng">
+                                                    <label class="form-check-label" for="skrininng">Скриннинг</label>
+                                                </div>
+
+                                                <div class="form-check">
+                                                    <input type="hidden" name="gruppasvs" value="0">
+                                                    <input class="form-check-input" type="checkbox" name="gruppasvs"
+                                                        value="1" id="gruppasvs">
+                                                    <label class="form-check-label" for="gruppasvs">СВС</label>
                                                 </div>
                                             </div>
 
@@ -459,16 +472,19 @@
                                             id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             Операции
                                         </button>
-                                        
+
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                             <li><button class="dropdown-item exportword"
                                                     data-name="{{ $pacient->lastname }} {{ $pacient->pname }} {{ $pacient->surname }}"
                                                     data-id="{{ $pacient->id }}">Экспорт в Word</button></li>
-                                            <li><button class="dropdown-item exportword"
-                                                    data-name="{{ $pacient->lastname }} {{ $pacient->pname }} {{ $pacient->surname }}"
-                                                    data-id="{{ $pacient->id }}">Редактировать</button></li>
-                                            <li><a href="{{Route('DeletePacient', $pacient->id)}}" class="dropdown-item deletepacient"                                                    
-                                                    >Удалить</a></li>
+                                            <li>
+                                                <button type="button" class="dropdown-item editpacient"
+                                                    data-bs-toggle="modal" data-id="{{ $pacient->id }}"
+                                                    data-bs-target="#addPacient">
+                                                    Редактировать</button>
+                                            </li>
+                                            <li><a href="{{ Route('DeletePacient', $pacient->id) }}"
+                                                    class="dropdown-item deletepacient">Удалить</a></li>
                                         </ul>
                                     </div>
                                     <div id="lk{{ $pacient->id }}">
