@@ -12,7 +12,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DataController;
 use App\Filters\pacientsFilter;
 use GuzzleHttp\Middleware;
-
+use App\Http\Controllers\PoliclinicController;
+use App\Http\Controllers\PacientVacineController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +49,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/bolezni/del/{id}', [BolezniController::class, 'DeleteBolezn'])->name('DeleteBolezn');
     Route::get('/vacines/del/{id}', [VacinesConroller::class, 'DeleteVacine'])->name('DeleteVacine');
     Route::get('/staciionars/del/{id}', [StacionarController::class, 'DeleteStacionar'])->name('DeleteStacionar');
+    Route::post('/savepoliclinic', [PoliclinicController::class, 'save'])->name('savepoliclinic');
+   
+    Route::post('/saveroddom', [RoddomController::class, 'saveroddom'])->name('saveroddom');
+    Route::post('/saveuchastok', [UchastokController::class, 'saveuchastok'])->name('saveuchastok');
+    Route::post('/savestacionar', [StacionarController::class, 'savestacionar'])->name('savestacionar');
+    Route::post('/savevacine', [PacientVacineController::class, 'savevacine'])->name('savevacine');
+    Route::post('/savebolezn', [BolezniController::class, 'savebolezn'])->name('savebolezn');
+
+    Route::post('/roddomdelete', [RoddomController::class, 'roddomdelete'])->name('roddomdelete');
+    Route::post('/uchastokdelete', [UchastokController::class, 'uchastokdelete'])->name('uchastokdelete');
+    Route::post('/stacionardelete', [StacionarController::class, 'stacionardelete'])->name('stacionardelete');
+    Route::post('/vacinedelete', [PacientVacineController::class, 'vacinedelete'])->name('vacinedelete');
+    Route::post('/bolezndelete', [BolezniController::class, 'bolezndelete'])->name('bolezndelete');
+
     // Route::get('/pacient', [PacientsController::class, 'PacientsPage'])->name('PacientsPage');
 
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UchastokReq;
+use App\Models\pacients;
 use App\Models\uchastok;
 
 class UchastokController extends Controller
@@ -13,6 +14,17 @@ class UchastokController extends Controller
   //  return datatables()->of(uchastok::all())->toJson();
   
     return view('pages.uchastki', ['uchastki' => $uchastki]);
+  }
+  public function uchastokdelete(Request $request){
+    $pac=pacients::where("uchastok_id",$request->id)->count();
+    if($pac) return "error";
+    uchastok::find($request->id)->delete();
+    return "success";
+  }
+
+  public function saveuchastok(Request $request){
+    uchastok::find($request->id)->update($request->all());
+    return "success";
   }
 
   public function AddUchastok(UchastokReq $req){

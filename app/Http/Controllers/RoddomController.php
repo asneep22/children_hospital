@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\RoddomRequest;
-
+use App\Models\pacients;
 use App\Models\roddom;
 
 class RoddomController extends Controller
@@ -21,6 +21,16 @@ class RoddomController extends Controller
     ]);
     flash('Запись роддома добавлена')->success();
     return redirect()->back();
+  }
+  public function saveroddom(Request $request){
+    roddom::find($request->id)->update($request->all());
+    return "success";
+  }
+  public function roddomdelete(Request $request){
+    $pac=pacients::where("roddom_id",$request->id)->count();
+    if($pac) return "error";
+    roddom::find($request->id)->delete();
+    return "success";
   }
 
   public function UpdateRoddom(RoddomRequest $req, $id){

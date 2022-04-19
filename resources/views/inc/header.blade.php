@@ -19,11 +19,12 @@
  
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li class="nav-item"><a href="{{Route('UchastkiPage')}}" class="nav-link">Участки</a></li>
-            <li class="nav-item"><a href="{{Route('RoddomsPage')}}" class="nav-link">Родильные дома</a></li>
-            <li class="nav-item"><a href="{{Route('StacionarsPage')}}" class="nav-link">Стационары</a></li>
-            <li class="nav-item"><a href="{{Route('BolezniPage')}}" class="nav-link">Болезни</a></li>
-            <li class="nav-item"><a href="{{Route('VacinesPage')}}" class="nav-link">Вакцины</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#uchastokModal">Участки</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#roddomModal">Родильные дома</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#stacionarModal">Стационары</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#boleznModal">Болезни</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#vacineModal">Вакцины</a></li>
+            <li class="nav-item"><a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#policlinicModal">Поликлиника</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">

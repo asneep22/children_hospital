@@ -15,6 +15,20 @@ class BolezniController extends Controller
     return view('pages.bolezni', ['bolezni' => $bolezni]);
   }
 
+  public function savebolezn(Request $request)
+    {
+        bolezn::find($request->id)->update(["q"=>$request->q??0]+$request->all());
+        return "success";
+    }
+
+    public function bolezndelete(Request $request)
+    {
+        $pac = vacines::where("descr_vacines_id", $request->id)->count();
+        if ($pac) return "error";
+        descr_vacines::find($request->id)->delete();
+        return "success";
+    }
+
   public function PacientAddBolezn(Request $req, $id){
     pacient_bolezn::where('stacionar_id', $id)->delete();
     $pac_bolezns = $req->input('bolezn');

@@ -11,7 +11,10 @@ use App\Http\Requests\PacientRequest;
 use App\Models\pacients;
 use App\Http\Resources\GetForUserResource;
 use App\Models\bolezn;
+use App\Models\descr_vacines;
 use App\Models\Policlinic;
+use App\Models\stacionar;
+use App\Models\vacines;
 use Illuminate\Support\Facades\Auth;
 
 class PacientsController extends Controller
@@ -349,7 +352,10 @@ class PacientsController extends Controller
 
     $roddoms = roddom::get()->sortBy("pname");
     $uchastoks = uchastok::get()->sortBy("pname");
+    $stacionars = stacionar::get()->sortBy("pname");
     $bolezns = bolezn::get()->sortBy("pname");
+    $vacines = descr_vacines::get()->sortBy("pname");
+    $policlinic = Policlinic::first();
     $check = isset($request->sort_field) ?  explode('|', $request->sort_field) : ['id', 'asc'];
     $pacients1 = pacients::with(['roddom', 'uchastok'])
       ->where(function ($query) use ($date_add, $birthday, $search, $uchastok_id, $roddom_id, $pol,$bolezn) {
@@ -399,7 +405,7 @@ class PacientsController extends Controller
     //   ->orderBy($check[0], $check[1])
     //   ->paginate(25);
 
-    return view('pages.pacients', ['pacients1' => $pacients1, 'roddoms' => $roddoms, 'bolezns' => $bolezns, 'uchastoks' => $uchastoks, 'check' => $check]);
+    return view('pages.pacients', ['pacients1' => $pacients1,'policlinic'=>$policlinic,'stacionars'=>$stacionars,'vacines'=>$vacines, 'roddoms' => $roddoms, 'bolezns' => $bolezns, 'uchastoks' => $uchastoks, 'check' => $check]);
   }
 
   public function AddPacient(PacientRequest $req)
