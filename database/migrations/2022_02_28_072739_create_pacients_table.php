@@ -34,6 +34,7 @@ return new class extends Migration
       $table->boolean('gruppasvs')->nullable();
       $table->mediumText('recommend')->nullable();
       $table->date('date_add');
+      $table->softDeletes();
       $table->timestamps();
     });
   }

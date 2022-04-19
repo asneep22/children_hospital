@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class pacients extends Model
 {
-  use HasFactory;
-
+  use HasFactory,SoftDeletes;
+  
   protected $fillable = [
     'lastname',
     'pname',
@@ -32,7 +33,7 @@ class pacients extends Model
     'recommend',
     'date_add'
   ];
-
+  protected $dates = ['deleted_at'];
   protected $casts = [
     'birthday' => 'datetime:d/m/Y',
     'date_add'=> 'datetime:d/m/Y',

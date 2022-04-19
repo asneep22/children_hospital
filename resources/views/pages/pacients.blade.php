@@ -589,7 +589,13 @@
 
 
         </div>
-
+        <div class="container">
+        <div class="alert alert-primary" role="alert">
+       Всего пациентов: <strong>{{$pacients1->total()}}</strong>
+</div>
+        
+        </div>
+        
         {{ $pacients1->withQueryString()->links() }}
 
     </div>
