@@ -12,6 +12,8 @@ use App\Models\pacients;
 use App\Http\Resources\GetForUserResource;
 use App\Models\bolezn;
 use App\Models\descr_vacines;
+use App\Models\pacient_bolezn;
+use App\Models\pacient_stacionar;
 use App\Models\Policlinic;
 use App\Models\stacionar;
 use App\Models\vacines;
@@ -410,7 +412,7 @@ class PacientsController extends Controller
 
   public function AddPacient(PacientRequest $req)
   {
-
+    
     if ($ucahstok = uchastok::firstOrCreate(
       ['id' => $req['uchastok_id']],
       ['pname' => $req['uchastok_id']]
@@ -425,7 +427,53 @@ class PacientsController extends Controller
       $req['roddom_id'] = $roddom->id;
     }
 
-    pacients::create($req->all());
+    $pac=pacients::create($req->all());
+    
+    pacient_stacionar::where('pacients_id', $pac->id)->delete();
+    //  return $req->di;
+    if($req->di)
+    foreach ($req->di as $di){
+      $diag = json_decode($di);
+      $vid=$diag->vid=="Роддом"?"roddom":($diag=="Стационар"?"stacionar":"inhome");
+      $stacionar_id = stacionar::firstOrCreate([
+        'pname' => $diag->pac_stacionar_id
+      ]);
+      $recommend = $diag->pac_recommends;
+      $date_in = $diag->pac_date_in;
+      $date_ou = $diag->pac_date_ou;
+      $pc = pacient_stacionar::create([
+        "vid"=>$vid, "stacionar_id"=>$stacionar_id->id,
+        "pacients_id"=>$pac->id,
+        "recommend"=>$recommend??"", "date_in"=>$date_in, "date_ou"=>$date_ou,
+      ]);
+      foreach($diag->pac_diagnoz as $diagnoz){
+        foreach($diagnoz as $diagnoz){
+        $bolezn = bolezn::firstOrCreate([
+          'pname' => $diagnoz
+        ]);
+        pacient_bolezn::create(["pacient_stacionar_id"=>$pc->id,"bolezn_id"=>$bolezn->id]);
+      }
+      }
+      // $pac_stacionar_id =  $req->pac_stacionar_id;
+      
+      //json_decode($di)->vid;
+    }
+
+    if($req->vacine){
+    vacines::where('pacients_id', $pac->id)->delete();
+    
+    foreach ($req->vacine as $vacine) {
+        $vac = descr_vacines::firstOrCreate([
+            'pname' => $vacine
+        ]);
+
+        vacines::create([
+            'pacients_id' => $pac->id,
+            'descr_vacines_id' => $vac->id,
+        ]);
+    }}
+
+
 
     flash('Запись пациента добавлена')->success();
     return redirect()->back();

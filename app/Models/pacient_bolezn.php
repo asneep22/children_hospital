@@ -10,7 +10,7 @@ class pacient_bolezn extends Model
     use HasFactory;
 
     protected $fillable = [
-      'stacionar_id',
+      'pacient_stacionar_id',
       'bolezn_id',
     ];
 

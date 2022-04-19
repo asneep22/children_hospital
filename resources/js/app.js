@@ -12,7 +12,58 @@ $(function () {
     $('.js-select').select2({
         tags: true, theme: "bootstrap-5", language: "ru",
         // dropdownParent: document.body,
-        dropdownParent: $('.modal-content')
+        dropdownParent: $('#home')
+    });
+    $('.js-select2').select2({
+        tags: true, theme: "bootstrap-5", language: "ru",
+        // dropdownParent: document.body,
+        dropdownParent: $('#contact')
+    });
+    $('.js-select3').select2({
+        tags: true, theme: "bootstrap-5", language: "ru",
+        // dropdownParent: document.body,
+        dropdownParent: $('#profile')
+    });
+
+    $.date = function(dateObject) {
+        var d = new Date(dateObject);
+        var day = d.getDate();
+        var month = d.getMonth() + 1;
+        var year = d.getFullYear();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        if (month < 10) {
+            month = "0" + month;
+        }
+        var date = day + "." + month + "." + year;
+    
+        return date;
+    };
+
+    $("#successaddperiod").on("click",function(){
+        let vid=$("#profile #vid").val();
+        let pac_stacionar_id=$("#profile #pac_stacionar_id").val();
+        let pac_diagnoz=$("#profile #pac_diagnoz").val();
+        let pac_recommends=$("#profile #pac_recommends").val();
+        let items = [];
+        items.push(pac_diagnoz);
+        let pac_date_in=$("#profile #pac_date_in").val();
+        let pac_date_ou=$("#profile #pac_date_ou").val();
+        if(!vid||!pac_date_in||!pac_date_ou){
+             
+            toastr.warning('Заполните поля!');
+
+            return false;
+        }
+        let obj={vid: vid,pac_stacionar_id:pac_stacionar_id,pac_diagnoz: items,pac_recommends:pac_recommends,pac_date_in:pac_date_in,pac_date_ou:pac_date_ou};
+        $("#tableforperiod #inp").append(`<input id="equal${$("#tableforperiod tbody tr").length}" type="hidden" name="di[]" value='${JSON.stringify(obj)}'>`)
+        $("#tableforperiod tbody").append(`<tr><td>${vid}</td><td>${pac_stacionar_id}</td><td>${$.date(pac_date_in)} - ${$.date(pac_date_ou)}</td><td>${items.join(", ")}</td><td>${pac_recommends}</td><td><button type="button" class="btn btn-sm btn-danger removetr" data-line="${$("#tableforperiod tbody tr").length}">-</td></tr>`);
+
+    })
+    $("body").on("click",".removetr",function(){
+        $("#tableforperiod #inp").find("#equal"+$(this).data("line")).remove();
+        $(this).parent().parent().remove();
     });
 
     // удаляем поля которые пустые из GET
@@ -174,7 +225,7 @@ $(function () {
         return false;
     });
 
-    $(".collapse").on('show.bs.collapse', function () {
+    $(".collapse.pacient").on('show.bs.collapse', function () {
 
         console.log($(this).data("id"));
         var id = $(this).data("id");
