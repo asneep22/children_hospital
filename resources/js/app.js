@@ -65,6 +65,10 @@ $(function () {
         $("#tableforperiod #inp").find("#equal"+$(this).data("line")).remove();
         $(this).parent().parent().remove();
     });
+    $("body").on("click",".deletepacient",function(){
+        if(confirm("Уверены???")){return true;}{return false;}
+    });
+    
 
     // удаляем поля которые пустые из GET
     $("#search").on("submit", function () {

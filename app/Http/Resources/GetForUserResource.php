@@ -21,6 +21,7 @@ class GetForUserResource extends JsonResource
             "recepient"=>$this->recepient,
             "recommend"=>$this->recommend,
             "skrinning"=>$this->skrinning,
+            "gepatit"=>$this->gepatit,
             "stacionars"=>GetForUserResourceStacionars::collection($this->stacionars),
             "vacine"=>GetForUserResourceVacine::collection($this->vacine),
             "vich"=>$this->vich,

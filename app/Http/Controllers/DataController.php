@@ -10,6 +10,6 @@ class DataController extends Controller
     public function uchastki()
     {
         $customers = uchastok::all();
-        return datatables()->of($customers)->toJson();
+ 
     }
 }

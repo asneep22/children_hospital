@@ -70,6 +70,10 @@
                     <td>{{$pacient["recepient"]?"Да":"Нет"}}</td>
                 </tr>
                 <tr>
+                    <th>Гепатит</th>
+                    <td>{{$pacient["gepatit"]?"Да":"Нет"}}</td>
+                </tr>
+                <tr>
                     <th>Группа СВС</th>
                     <td>{{$pacient["gruppasvs"]?"Да":"Нет"}}</td>
                 </tr>

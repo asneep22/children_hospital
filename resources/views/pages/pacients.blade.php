@@ -327,6 +327,11 @@
                                                   <input class="form-check-input" type="checkbox" name="recepient" value="1" id="recepient">
                                                   <label class="form-check-label" for="recepient">Рецепиент крови</label>
                                                 </div>
+                                                <div class="form-check">
+                                                  <input type="hidden" name="skrininng" value="0">
+                                                  <input class="form-check-input" type="checkbox" name="skrininng" value="1" id="skrininng">
+                                                  <label class="form-check-label" for="skrininng">Скриннинг</label>
+                                                </div>
                                       
                                                 <div class="form-check">
                                                   <input type="hidden" name="gruppasvs" value="0">
@@ -430,9 +435,7 @@
                             <tr class="p-0 m-0" role="button" data-bs-toggle="collapse"
                                 data-bs-target="#accordion{{ $pacient->id }}" aria-expanded="false"
                                 class="clickable">
-                                <th>
-                                    <a href="{{ Route('OnePacientPage', $pacient->id) }}"
-                                        class="forlink">{{ $pacient->id }}</a></td>
+                                <th>{{ $pacient->id }}</td>
                                 <td>{{ $pacient->lastname }} {{ $pacient->pname }} {{ $pacient->surname }}</td>
                                 <td class="text-center">{{ $pacient->birthday->format('d.m.Y') }}</td>
                                 <td>{{ $pacient->uchastok->pname }}</td>
@@ -454,12 +457,18 @@
                                     <div class="dropdown">
                                         <button class="btn btn-warning dropdown-toggle" type="button"
                                             id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Экспорт
+                                            Операции
                                         </button>
+                                        
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                             <li><button class="dropdown-item exportword"
                                                     data-name="{{ $pacient->lastname }} {{ $pacient->pname }} {{ $pacient->surname }}"
                                                     data-id="{{ $pacient->id }}">Экспорт в Word</button></li>
+                                            <li><button class="dropdown-item exportword"
+                                                    data-name="{{ $pacient->lastname }} {{ $pacient->pname }} {{ $pacient->surname }}"
+                                                    data-id="{{ $pacient->id }}">Редактировать</button></li>
+                                            <li><a href="{{Route('DeletePacient', $pacient->id)}}" class="dropdown-item deletepacient"                                                    
+                                                    >Удалить</a></li>
                                         </ul>
                                     </div>
                                     <div id="lk{{ $pacient->id }}">

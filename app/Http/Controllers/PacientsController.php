@@ -338,10 +338,10 @@ class PacientsController extends Controller
   }
   public function PacientsPage(Request $request)
   {
-    if(!Auth::check()){
+    if (!Auth::check()) {
       return view('pages.autoriz');
-      }
-    
+    }
+
 
     $search = $request->search ?? '';
 
@@ -360,7 +360,7 @@ class PacientsController extends Controller
     $policlinic = Policlinic::first();
     $check = isset($request->sort_field) ?  explode('|', $request->sort_field) : ['id', 'asc'];
     $pacients1 = pacients::with(['roddom', 'uchastok'])
-      ->where(function ($query) use ($date_add, $birthday, $search, $uchastok_id, $roddom_id, $pol,$bolezn) {
+      ->where(function ($query) use ($date_add, $birthday, $search, $uchastok_id, $roddom_id, $pol, $bolezn) {
         if ($search) {
           $query->where('lastname', 'LIKE', '%' . $search . '%');
           $query->orWhere('pname', 'LIKE', '%' . $search . '%');
@@ -385,10 +385,10 @@ class PacientsController extends Controller
         if ($pol) {
           $query->where('pol', $pol == 2 ? 0 : 1);
         }
-        if($bolezn){
-          $query->whereHas('bolezns', function ($q) use($bolezn) {
+        if ($bolezn) {
+          $query->whereHas('bolezns', function ($q) use ($bolezn) {
             return $q->where('bolezn_id', '=', $bolezn);
-        });
+          });
         }
       })
       ->orderBy($check[0], $check[1])
@@ -407,12 +407,12 @@ class PacientsController extends Controller
     //   ->orderBy($check[0], $check[1])
     //   ->paginate(25);
 
-    return view('pages.pacients', ['pacients1' => $pacients1,'policlinic'=>$policlinic,'stacionars'=>$stacionars,'vacines'=>$vacines, 'roddoms' => $roddoms, 'bolezns' => $bolezns, 'uchastoks' => $uchastoks, 'check' => $check]);
+    return view('pages.pacients', ['pacients1' => $pacients1, 'policlinic' => $policlinic, 'stacionars' => $stacionars, 'vacines' => $vacines, 'roddoms' => $roddoms, 'bolezns' => $bolezns, 'uchastoks' => $uchastoks, 'check' => $check]);
   }
 
   public function AddPacient(PacientRequest $req)
   {
-    
+
     if ($ucahstok = uchastok::firstOrCreate(
       ['id' => $req['uchastok_id']],
       ['pname' => $req['uchastok_id']]
@@ -427,51 +427,52 @@ class PacientsController extends Controller
       $req['roddom_id'] = $roddom->id;
     }
 
-    $pac=pacients::create($req->all());
-    
+    $pac = pacients::create($req->all());
+
     pacient_stacionar::where('pacients_id', $pac->id)->delete();
     //  return $req->di;
-    if($req->di)
-    foreach ($req->di as $di){
-      $diag = json_decode($di);
-      $vid=$diag->vid=="Роддом"?"roddom":($diag=="Стационар"?"stacionar":"inhome");
-      $stacionar_id = stacionar::firstOrCreate([
-        'pname' => $diag->pac_stacionar_id
-      ]);
-      $recommend = $diag->pac_recommends;
-      $date_in = $diag->pac_date_in;
-      $date_ou = $diag->pac_date_ou;
-      $pc = pacient_stacionar::create([
-        "vid"=>$vid, "stacionar_id"=>$stacionar_id->id,
-        "pacients_id"=>$pac->id,
-        "recommend"=>$recommend??"", "date_in"=>$date_in, "date_ou"=>$date_ou,
-      ]);
-      foreach($diag->pac_diagnoz as $diagnoz){
-        foreach($diagnoz as $diagnoz){
-        $bolezn = bolezn::firstOrCreate([
-          'pname' => $diagnoz
+    if ($req->di)
+      foreach ($req->di as $di) {
+        $diag = json_decode($di);
+        $vid = $diag->vid == "Роддом" ? "roddom" : ($diag == "Стационар" ? "stacionar" : "inhome");
+        $stacionar_id = stacionar::firstOrCreate([
+          'pname' => $diag->pac_stacionar_id
         ]);
-        pacient_bolezn::create(["pacient_stacionar_id"=>$pc->id,"bolezn_id"=>$bolezn->id]);
-      }
-      }
-      // $pac_stacionar_id =  $req->pac_stacionar_id;
-      
-      //json_decode($di)->vid;
-    }
+        $recommend = $diag->pac_recommends;
+        $date_in = $diag->pac_date_in;
+        $date_ou = $diag->pac_date_ou;
+        $pc = pacient_stacionar::create([
+          "vid" => $vid, "stacionar_id" => $stacionar_id->id,
+          "pacients_id" => $pac->id,
+          "recommend" => $recommend ?? "", "date_in" => $date_in, "date_ou" => $date_ou,
+        ]);
+        foreach ($diag->pac_diagnoz as $diagnoz) {
+          foreach ($diagnoz as $diagnoz) {
+            $bolezn = bolezn::firstOrCreate([
+              'pname' => $diagnoz
+            ]);
+            pacient_bolezn::create(["pacient_stacionar_id" => $pc->id, "bolezn_id" => $bolezn->id]);
+          }
+        }
+        // $pac_stacionar_id =  $req->pac_stacionar_id;
 
-    if($req->vacine){
-    vacines::where('pacients_id', $pac->id)->delete();
-    
-    foreach ($req->vacine as $vacine) {
+        //json_decode($di)->vid;
+      }
+
+    if ($req->vacine) {
+      vacines::where('pacients_id', $pac->id)->delete();
+
+      foreach ($req->vacine as $vacine) {
         $vac = descr_vacines::firstOrCreate([
-            'pname' => $vacine
+          'pname' => $vacine
         ]);
 
         vacines::create([
-            'pacients_id' => $pac->id,
-            'descr_vacines_id' => $vac->id,
+          'pacients_id' => $pac->id,
+          'descr_vacines_id' => $vac->id,
         ]);
-    }}
+      }
+    }
 
 
 
