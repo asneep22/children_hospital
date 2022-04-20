@@ -58,11 +58,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/savevacine', [PacientVacineController::class, 'savevacine'])->name('savevacine');
     Route::post('/savebolezn', [BolezniController::class, 'savebolezn'])->name('savebolezn');
 
-    // Route::post('/roddomdelete', [RoddomController::class, 'roddomdelete'])->name('roddomdelete');
-    // Route::post('/uchastokdelete', [UchastokController::class, 'uchastokdelete'])->name('uchastokdelete');
-    // Route::post('/stacionardelete', [StacionarController::class, 'stacionardelete'])->name('stacionardelete');
-    // Route::post('/vacinedelete', [PacientVacineController::class, 'vacinedelete'])->name('vacinedelete');
-    // Route::post('/bolezndelete', [BolezniController::class, 'bolezndelete'])->name('bolezndelete');
+    Route::post('/roddomdelete', [RoddomController::class, 'roddomdelete'])->name('roddomdelete');
+    Route::post('/uchastokdelete', [UchastokController::class, 'uchastokdelete'])->name('uchastokdelete');
+    Route::post('/stacionardelete', [StacionarController::class, 'stacionardelete'])->name('stacionardelete');
+    Route::post('/vacinedelete', [PacientVacineController::class, 'vacinedelete'])->name('vacinedelete');
+    Route::post('/bolezndelete', [BolezniController::class, 'bolezndelete'])->name('bolezndelete');
 
     // Route::get('/pacient', [PacientsController::class, 'PacientsPage'])->name('PacientsPage');
 

@@ -26,15 +26,16 @@ return new class extends Migration
       $table->boolean('pol')->default(false);
       $table->float('gestaci');
       $table->foreignId('roddom_id')->constrained('roddoms')->onDelete('cascade')->onUpdate('cascade');
-      $table->boolean('skrinning')->nullable();
-      $table->boolean('audio')->nullable();
-      $table->boolean('vich')->nullable();
-      $table->boolean('gepatit')->nullable();
-      $table->boolean('recepient')->nullable();
-      $table->boolean('gruppasvs')->nullable();
+      $table->enum('skrinning',["","roddom","policlinic"])->default("")->nullable();
+      $table->boolean('audio')->default(0);
+      $table->boolean('vich')->default(0);
+      $table->boolean('gepatit')->default(0);
+      $table->boolean('recepient')->default(0);
+      $table->boolean('gruppasvs')->default(0);
+      $table->boolean('bcjm')->default(0);
+      $table->boolean('gepatitb')->default(0);
       $table->mediumText('recommend')->nullable();
       $table->date('date_add');
-      $table->softDeletes();
       $table->timestamps();
     });
   }

@@ -31,6 +31,8 @@ class pacients extends Model
     'recepient',
     'gruppasvs',
     'recommend',
+    'bcjm',
+    'gepatitb',
     'date_add'
   ];
   protected $dates = ['deleted_at'];

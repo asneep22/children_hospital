@@ -79,7 +79,7 @@
                 </tr>
                 <tr>
                     <th>Скриннинг</th>
-                    <td>{{$pacient["skrinning"]?"Да":"Нет"}}</td>
+                    <td>{{$pacient["skrinning"]=="roddom"?"В роддоме":($pacient["skrinning"]=="policlinic"?"В поликлинике":"")}}</td>
                 </tr>
                 <tr>
                     <th>ВИЧ</th>

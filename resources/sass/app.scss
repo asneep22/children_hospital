@@ -12,11 +12,3 @@
 @import 'daterangepicker';
 @import 'material-icons';
 @import "toastr";
-
-body .select2-container--default .select2-selection--multiple .select2-selection__choice{
-    display: block;
-}
-.dropdown:hover .dropdown-menu {
-    display: block;
-    margin-top: 0; 
- }

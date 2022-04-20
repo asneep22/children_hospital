@@ -28,6 +28,7 @@ class PacientsController extends Controller
     $stacionar = stacionar::all()->keyBy("id")->toArray();
     $bolezn = bolezn::all()->keyBy("id")->toArray();
     $pacient = pacients::with("vacine", "stacionars")->find($id);
+   
     $pacient->birthday1 = date("Y-m-d", strtotime($pacient->birthday));
     $pacient->date_add1 = date("Y-m-d", strtotime($pacient->date_add));
     if ($pacient->vacine) {
@@ -195,8 +196,8 @@ class PacientsController extends Controller
     }
 
     $nedo = pacients::with("bolezn")->whereBetween("date_add", [$d1, $d2])->where('gestaci', "<", 37)->get();
-    $enmt = pacients::with("bolezn")->whereBetween("date_add", [$d1, $d2])->where('ves', "<", 1000)->get();
-    $onmt = pacients::with("bolezn")->whereBetween("date_add", [$d1, $d2])->whereBetween('ves', [1000, 1500])->get();
+    $enmt = pacients::with("bolezn")->whereBetween("date_add", [$d1, $d2])->where('ves', "<=", 1000)->get();
+    $onmt = pacients::with("bolezn")->whereBetween("date_add", [$d1, $d2])->whereBetween('ves', [1001, 1500])->get();
     $q = pacients::with("bolezn")->whereBetween("date_add", [$d1, $d2])->get()->keyBy("id");
 
     $qa = [];
@@ -243,9 +244,10 @@ class PacientsController extends Controller
     $table->addCell()->addText("Вес", ['bold' => true]);
     $table->addCell()->addText("Срок гестации", ['bold' => true]);
     $table->addCell()->addText("Диагноз", ['bold' => true]);
+    $is = 1;
     foreach ($qa as $n => $v) {
       $table->addRow();
-      $table->addCell()->addText($n + 1);
+      $table->addCell()->addText($is++);
       $table->addCell()->addText($v->lastname . " " . $v->pname . " " . $v->surname);
       $table->addCell()->addText(date("d.m.Y", strtotime($v->birthday)));
       $table->addCell()->addText($v->address);
@@ -388,6 +390,13 @@ class PacientsController extends Controller
     $roddom_id = $request->roddom_id ?? '';
     $bolezn = $request->bolezn ?? '';
     $pol = $request->pol ?? "";
+    $vich = $request->vich ?? "";
+    $skrinning = $request->skrinning ?? "";
+    $gepatit = $request->gepatit ?? "";
+    $gruppasvs = $request->gruppasvs ?? "";
+    $recepient = $request->recepient ?? "";
+    $ves = $request->ves ?? "";
+    $vacine = $request->vacine ?? "";
 
     $roddoms = roddom::get()->sortBy("pname");
     $uchastoks = uchastok::get()->sortBy("pname");
@@ -397,7 +406,7 @@ class PacientsController extends Controller
     $policlinic = Policlinic::first();
     $check = isset($request->sort_field) ?  explode('|', $request->sort_field) : ['id', 'asc'];
     $pacients1 = pacients::with(['roddom', 'uchastok'])
-      ->where(function ($query) use ($date_add, $birthday, $search, $uchastok_id, $roddom_id, $pol, $bolezn) {
+      ->where(function ($query) use ($date_add, $gepatit, $ves, $vacine, $gruppasvs, $recepient, $birthday, $search, $uchastok_id, $vich, $roddom_id, $pol, $bolezn, $skrinning) {
         if ($search) {
           $query->where('lastname', 'LIKE', '%' . $search . '%');
           $query->orWhere('pname', 'LIKE', '%' . $search . '%');
@@ -406,6 +415,14 @@ class PacientsController extends Controller
         }
         if ($date_add) {
           $query->whereBetween('date_add', [date('Y-m-d', strtotime($date_add[0])), date('Y-m-d', strtotime($date_add[1]))]);
+        }
+        if ($ves) {
+          if ($ves == 1)
+            $query->whereBetween('ves', [1501, 2500]);
+          if ($ves == 2)
+            $query->whereBetween('ves', [1001, 1499]);
+          if ($ves == 3)
+            $query->where('ves', '<', 1001);
         }
         if ($birthday) {
           $query->whereBetween('birthday', [date('Y-m-d', strtotime($birthday[0])), date('Y-m-d', strtotime($birthday[1]))]);
@@ -416,11 +433,33 @@ class PacientsController extends Controller
         if ($roddom_id) {
           $query->where('roddom_id', $roddom_id);
         }
-        if ($pol) {
-          $query->where('pol', $pol == 2 ? 0 : 1);
+        if ($skrinning) {
+          $query->where('skrinning', $skrinning);
         }
         if ($pol) {
           $query->where('pol', $pol == 2 ? 0 : 1);
+        }
+        if ($vich) {
+          $query->where('vich', $vich);
+        }
+        if ($vacine) {
+          if($vacine==1)
+          $query->where('gepatitb', 0)->where('bcjm', 0);
+          if($vacine==2)
+          $query->where('gepatitb', 1)->where('bcjm', 0);
+          if($vacine==3)
+          $query->where('gepatitb', 0)->where('bcjm', 1);
+          if($vacine==4)
+          $query->where('gepatitb', 1)->where('bcjm', 1);
+        }
+        if ($gruppasvs) {
+          $query->where('gruppasvs', $gruppasvs);
+        }
+        if ($recepient) {
+          $query->where('recepient', $recepient);
+        }
+        if ($gepatit) {
+          $query->where('gepatit', $vich);
         }
         if ($bolezn) {
           $query->whereHas('bolezns', function ($q) use ($bolezn) {
@@ -430,7 +469,6 @@ class PacientsController extends Controller
       })
       ->orderBy($check[0], $check[1])
       ->paginate(25);
-
     return view('pages.pacients', ['pacients1' => $pacients1, 'policlinic' => $policlinic, 'stacionars' => $stacionars, 'vacines' => $vacines, 'roddoms' => $roddoms, 'bolezns' => $bolezns, 'uchastoks' => $uchastoks, 'check' => $check]);
   }
 

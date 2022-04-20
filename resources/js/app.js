@@ -25,6 +25,10 @@ $(function () {
         dropdownParent: $('#profile')
     });
 
+    $("#reset").on("click", function(){
+        window.location = window.location.href.split("?")[0];
+    });
+
     $.date = function(dateObject) {
         var d = new Date(dateObject);
         var day = d.getDate();
@@ -43,6 +47,15 @@ $(function () {
     
     $("body").on("click",".ads",function(){
         $("#userid").val('');
+    });
+
+    $("#lastname,#pname,#surname").on("keyup", function() {
+
+        var text = $(this).val(); 
+        var new_text = text.charAt(0).toUpperCase() + text.substr(1);
+
+        $(this).val(new_text);
+
     });
 
     $("body").on("click",".editpacient",function(){
@@ -66,14 +79,19 @@ $(function () {
            $("#vacines").val(data.vac).trigger('change');
            if(data.audio)
            $('input[name="audio"]').prop("checked",true);
+           if(data.gepatitb)
+           $('input[name="gepatitb"]').prop("checked",true);
+           if(data.bcjm)
+           $('input[name="bcjm"]').prop("checked",true);
            if(data.vich)
            $('input[name="vich"]').prop("checked",true);
            if(data.gepatit)
            $('input[name="gepatit"]').prop("checked",true);
            if(data.recepient)
            $('input[name="recepient"]').prop("checked",true);
-           if(data.scrinning)
-           $('input[name="scrinning"]').prop("checked",true);
+           $('#skrinning option[value="'+data.skrinning+'"]').prop('selected', true);
+        
+           $('#pol option[value="'+data.pol+'"]').prop('selected', true);
            if(data.gruppasvs)
            $('input[name="gruppasvs"]').prop("checked",true);
            $("#tableforperiod #inp").html('');
