@@ -228,7 +228,55 @@
         </div>
 
         {{ $pacients1->withQueryString()->links() }}
-
+  
+        
+        
+    </div>
+    <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+        <div class="alert alert-success ">
+            <div class="table-responsive">
+                <h3>Статистика по болезням</h3>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Диагноз</th>
+                            <th>Количество</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($statistic as $n => $pacient)
+                            <tr>
+                                <td>{{ $n }}</td>
+                                <td>{{ $pacient }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div></div></div>
+            <div class="col-md-4">
+        <div class="alert alert-success">
+            <div class="table-responsive">
+                <h3>Статистика по участкам</h3>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Участок</th>
+                            <th>Количество детей</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($uch as $n => $pacient)
+                            <tr>
+                                <td>{{ $n }}</td>
+                                <td>{{ $pacient }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div></div></div>
+        </div>
     </div>
     <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -630,15 +678,15 @@
                                     <option value="1"
                                         {{ isset($_GET['gestaci']) ? ($_GET['gestaci'] == 1 ? 'selected' : '') : '' }}>
                                         Переношенные (>42)
-                                    </option>    
+                                    </option>
                                     <option value="2"
                                         {{ isset($_GET['gestaci']) ? ($_GET['gestaci'] == 2 ? 'selected' : '') : '' }}>
                                         Полностью доношенные (39-41)
-                                    </option>    
+                                    </option>
                                     <option value="3"
                                         {{ isset($_GET['gestaci']) ? ($_GET['gestaci'] == 3 ? 'selected' : '') : '' }}>
                                         Ранние доношенные (37-38)
-                                    </option>    
+                                    </option>
                                     <option value="4"
                                         {{ isset($_GET['gestaci']) ? ($_GET['gestaci'] == 4 ? 'selected' : '') : '' }}>
                                         Поздние недоношенные (34-36)
