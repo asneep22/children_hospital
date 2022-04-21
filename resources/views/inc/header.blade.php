@@ -1,15 +1,15 @@
+@auth('web')
 <nav class="navbar navbar-expand-lg navbar-light"  style="background-color: #e3f2fd;">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
+
+       
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-        @guest('web')
-        Вы не авторизованы
-        @endguest
-
-        @auth('web')
+        
         <li class="nav-item">
         <x-modal modalId="addPacient" modalTitle="Добавить пациента" btnClass="nav-link" btnText="Добавить пациента">
                                 <form class="" action="{{ Route('AddPacient') }}" method="post">
@@ -229,7 +229,7 @@
                                             <div class="form-check">
                                                 <input type="hidden" name="gepatitb" value="0">
                                                 <input class="form-check-input" type="checkbox" name="gepatitb" value="1" id="gepatitb">
-                                                <label class="form-check-label" for="gepatitb">Гепатит Б</label>
+                                                <label class="form-check-label" for="gepatitb">Гепатит B</label>
                                             </div>
                                             <div class="form-check">
                                                 <input type="hidden" name="bcjm" value="0">
@@ -320,14 +320,16 @@
         <li class="nav-item"><a href="{{Route('Logout')}}" class="nav-link text-danger"><span class="material-icons-two-tone float-start">sensor_door</span> Выход</a></li>
 
 
-        @endauth
+        
       </ul>
       
       
     </div>
+    
     <form class="d-flex">
     <button type="button" class="btn btn-demo" data-bs-toggle="modal" data-bs-target="#myModal2">
     <span class="material-icons-two-tone float-start">filter_alt</span> Фильтры
 		</button>
     </form>
 </nav>
+@endauth

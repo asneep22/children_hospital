@@ -194,8 +194,8 @@ $(function () {
     });
 
     $('.dateranger').on('apply.daterangepicker', function (ev, picker) {
-        $('input[name="' + $(this).data("field") + '"]').val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'))
-        $('#search').trigger("submit");
+        $(this).val(picker.startDate.format('DD.MM.YYYY') + ' - ' + picker.endDate.format('DD.MM.YYYY'))
+        // $('#search').trigger("submit");
     });
     $('.daterangerreport').on('apply.daterangepicker', function (ev, picker) {
         window.open('/report_nedo/' + picker.startDate.format('YYYY-MM-DD') + '/' + picker.endDate.format('YYYY-MM-DD'), '_blank');
@@ -209,11 +209,6 @@ $(function () {
 
     $('.dateranger').on('cancel.daterangepicker', function () {
         $('input[name="' + $(this).data("field") + '"]').val('');
-        $('#search').trigger("submit");
-    });
-
-    $('.selectform').on("change", function () {
-        $('input[name="' + $(this).data("field") + '"]').val($(this).val());
         $('#search').trigger("submit");
     });
 
